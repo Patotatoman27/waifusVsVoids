@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqe2ttqny5guu"]
+
+[ext_resource type="Script" uid="uid://bv1gb0grq3pm2" path="res://Scripts/TestPlayer.gd" id="1_464m7"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_td0ke"]
+radius = 47.0
+height = 182.0
+
+[node name="MainTestStage" type="Node"]
+
+[node name="Floor" type="Node2D" parent="."]
+position = Vector2(0, 470)
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
+
+[node name="ColorRect" type="ColorRect" parent="Floor"]
+offset_left = -183.0
+offset_right = 1348.0
+offset_bottom = 191.0
+color = Color(0.67069, 0.67069, 0.67069, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_464m7")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 2
+script = ExtResource("1_464m7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CapsuleShape2D_td0ke")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
