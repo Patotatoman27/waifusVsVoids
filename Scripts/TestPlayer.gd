@@ -17,7 +17,7 @@ var additionalGravity;
 
 #States
 var state = "idle"  # Estado actual
-var direction := 0
+var direction := 0.0
 
 func _ready() -> void:
 	quequedJump = false;
@@ -28,8 +28,8 @@ func _physics_process(delta: float) -> void:
 		"idle":
 			update_input()
 			velocity.x = 0
-			if anim.animation != state:
-				anim.play(state)
+			if anim.animation != "idle":
+				anim.play("idle")
 			#Change
 			jumpLogic()
 			if direction != 0:
@@ -75,14 +75,14 @@ func _physics_process(delta: float) -> void:
 				state = "idle"
 	
 	move_and_slide()
+	
 
 
 func update_input():
 	direction = Input.get_axis("P1_Left", "P1_Right")
 	if state == "jump" and velocity.y == 0 and is_on_floor():
 		state = "idle"
-	if state == "jump" and velocity.y < 0 and Input.is_action_just_pressed("ui_accept"):
-		velocity.y = JUMP_VELOCITY
+	jumpLogic();
 		
 func jumpLogic():
 	if Input.is_action_just_pressed("P1_Jump"):
