@@ -1,31 +1,90 @@
 extends CharacterBody2D
 
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+
+#Atributos
 const SPEED = 400.0
 @export var JUMP_VELOCITY = -400.0;
 const QUEQUE_JUMP_FRAMES = 10;
-const GRAVITY = Vector2(0, 1580);
+const GRAVITY = 1580;
 const ACCELERATION = 5000
 const FRICTION = 9999
 
+#Condiciones
 var quequedJump : bool;
 var quequedJumpFrames : int;
 var additionalGravity;
+
+#States
+var state = "idle"  # Estado actual
+var direction := 0
 
 func _ready() -> void:
 	quequedJump = false;
 	additionalGravity = 0;
 
 func _physics_process(delta: float) -> void:
-	
-	# Gravedad. Añade gravedad adicional si estás cayendo
-	if not is_on_floor():
-		velocity.y += (GRAVITY.y + additionalGravity) * delta;
-		if velocity.y > 0:
-			additionalGravity += 150;
-	else:
-		additionalGravity = 0;
+	match state:
+		"idle":
+			update_input()
+			velocity.x = 0
+			if anim.animation != state:
+				anim.play(state)
+			#Change
+			jumpLogic()
+			if direction != 0:
+				state = "walk"
+			if not is_on_floor():
+				state = "falling"
+		"walk":
+			update_input()
+			velocity.x += direction * ACCELERATION * delta
+			if abs(velocity.x) > SPEED:
+				velocity.x = sign(velocity.x) * SPEED
+			if anim.animation != state:
+				anim.play(state)
+			#Change
+			if direction == 0:
+				state = "idle"
+			jumpLogic();
 
-	# Salto. Al darle al boton de salto guardalo hasta que sea usable por x frames.
+		"jump":
+			update_input()
+			velocity.x = direction * SPEED * 0.8
+			if not is_on_floor():
+				velocity.y += (GRAVITY + additionalGravity) * delta;
+				if velocity.y > 0:
+					additionalGravity += 150;
+			else:
+				additionalGravity = 0;
+			anim.play("idle")
+			#Change
+			if is_on_floor():
+				state = "idle"
+		"falling":
+			update_input()
+			velocity.x = direction * SPEED
+			velocity.y += (GRAVITY + additionalGravity) * delta;
+			#Change
+			if not is_on_floor():
+				velocity.y += (GRAVITY + additionalGravity) * delta;
+				if velocity.y > 0:
+					additionalGravity += 50;
+			else:
+				additionalGravity = 0;
+				state = "idle"
+	
+	move_and_slide()
+
+
+func update_input():
+	direction = Input.get_axis("P1_Left", "P1_Right")
+	if state == "jump" and velocity.y == 0 and is_on_floor():
+		state = "idle"
+	if state == "jump" and velocity.y < 0 and Input.is_action_just_pressed("ui_accept"):
+		velocity.y = JUMP_VELOCITY
+		
+func jumpLogic():
 	if Input.is_action_just_pressed("P1_Jump"):
 		quequedJump = true;
 		quequedJumpFrames = QUEQUE_JUMP_FRAMES;
@@ -33,19 +92,8 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 			quequedJump = false;
+			state = "jump";
 		else:
 			quequedJumpFrames -= 1;
 			if quequedJumpFrames <= 0:
 				quequedJump = false;
-
-	#Movimiento horizontal
-	var direction := Input.get_axis("P1_Left", "P1_Right")
-
-	if direction != 0:
-		velocity.x += direction * ACCELERATION * delta
-		if abs(velocity.x) > SPEED:
-			velocity.x = sign(velocity.x) * SPEED
-	else:
-		velocity.x = 0
-	
-	move_and_slide()

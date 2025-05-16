@@ -1,12 +1,129 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=23 format=3 uid="uid://cqe2ttqny5guu"]
 
 [ext_resource type="Script" uid="uid://bv1gb0grq3pm2" path="res://Scripts/TestPlayer.gd" id="1_464m7"]
+[ext_resource type="Texture2D" uid="uid://bcgboytfl463e" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_001.png" id="2_hy1cj"]
+[ext_resource type="Texture2D" uid="uid://4somqqy6qiow" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_003.png" id="3_mqcjl"]
+[ext_resource type="Texture2D" uid="uid://dau73ss1sb1yf" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_005.png" id="4_ehspr"]
+[ext_resource type="Texture2D" uid="uid://bo73o5cq0e0ol" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_007.png" id="5_caoic"]
+[ext_resource type="Texture2D" uid="uid://cn21gcepteakv" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_009.png" id="6_i4wdr"]
+[ext_resource type="Texture2D" uid="uid://boxeahdsdvq7s" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_011.png" id="7_ysomi"]
+[ext_resource type="Texture2D" uid="uid://chjudsqt2f4i" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_013.png" id="8_40vyh"]
+[ext_resource type="Texture2D" uid="uid://bf3s3kvm7xyx5" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_015.png" id="9_p2skt"]
+[ext_resource type="Texture2D" uid="uid://bekuhs8j4y7kc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_001.png" id="10_p2skt"]
+[ext_resource type="Texture2D" uid="uid://ch8f2ke2odc83" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_003.png" id="11_rixb3"]
+[ext_resource type="Texture2D" uid="uid://bjtjyysxd6wfc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_005.png" id="12_dfr5b"]
+[ext_resource type="Texture2D" uid="uid://ce7qwtcimnpp4" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_007.png" id="13_yd757"]
+[ext_resource type="Texture2D" uid="uid://bpb5e0rqe6mv7" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_009.png" id="14_xyyx0"]
+[ext_resource type="Texture2D" uid="uid://dthw3hpeod17t" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_011.png" id="15_877i3"]
+[ext_resource type="Texture2D" uid="uid://2pvkt0rpa1ya" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_013.png" id="16_hthfn"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_td0ke"]
 radius = 47.0
 height = 182.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rixb3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hy1cj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mqcjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ehspr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_caoic")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_i4wdr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ysomi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_40vyh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_p2skt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_p2skt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_rixb3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_dfr5b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_yd757")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_xyyx0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_877i3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_hthfn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_dfr5b"]
+resource_name = "Idle"
+length = 0.937506
+loop_mode = 1
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_yd757"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xyyx0"]
+_data = {
+&"Idle": SubResource("Animation_dfr5b"),
+&"RESET": SubResource("Animation_yd757")
+}
 
 [node name="MainTestStage" type="Node"]
 
@@ -35,4 +152,14 @@ JUMP_VELOCITY = -850.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_td0ke")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(0, 8)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_rixb3")
+animation = &"walk"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_xyyx0")
+}
+autoplay = "Idle"
