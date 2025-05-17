@@ -3,10 +3,10 @@ extends CharacterBody2D
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 #Atributos
-const SPEED = 400.0
-@export var JUMP_VELOCITY = -400.0;
+const SPEED = 500.0
+@export var JUMP_VELOCITY : int;
 const QUEQUE_JUMP_FRAMES = 10;
-const GRAVITY = 1580;
+const GRAVITY = 2280;
 const ACCELERATION = 5000
 const FRICTION = 9999
 
@@ -26,24 +26,25 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	match state:
 		"idle":
-			update_input()
 			velocity.x = 0
 			if anim.animation != "idle":
 				anim.play("idle")
 			#Change
+			update_input()
 			jumpLogic()
 			if direction != 0:
 				state = "walk"
 			if not is_on_floor():
 				state = "falling"
 		"walk":
-			update_input()
+			
 			velocity.x += direction * ACCELERATION * delta
 			if abs(velocity.x) > SPEED:
 				velocity.x = sign(velocity.x) * SPEED
 			if anim.animation != state:
 				anim.play(state)
 			#Change
+			update_input()
 			if direction == 0:
 				state = "idle"
 			jumpLogic();
@@ -62,10 +63,10 @@ func _physics_process(delta: float) -> void:
 			if is_on_floor():
 				state = "idle"
 		"falling":
-			update_input()
 			velocity.x = direction * SPEED
 			velocity.y += (GRAVITY + additionalGravity) * delta;
 			#Change
+			update_input()
 			if not is_on_floor():
 				velocity.y += (GRAVITY + additionalGravity) * delta;
 				if velocity.y > 0:

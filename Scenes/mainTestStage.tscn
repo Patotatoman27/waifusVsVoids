@@ -20,8 +20,8 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_td0ke"]
-radius = 47.0
-height = 182.0
+radius = 65.0
+height = 348.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rixb3"]
 animations = [{
@@ -128,14 +128,14 @@ _data = {
 [node name="MainTestStage" type="Node"]
 
 [node name="Floor" type="Node2D" parent="."]
-position = Vector2(0, 470)
+position = Vector2(0, 880)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
 
 [node name="ColorRect" type="ColorRect" parent="Floor"]
 offset_left = -183.0
-offset_right = 1348.0
-offset_bottom = 191.0
+offset_right = 2227.0
+offset_bottom = 391.0
 color = Color(0.67069, 0.67069, 0.67069, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
@@ -147,14 +147,14 @@ shape = SubResource("WorldBoundaryShape2D_464m7")
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 collision_layer = 2
 script = ExtResource("1_464m7")
-JUMP_VELOCITY = -850.0
+JUMP_VELOCITY = -1300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_td0ke")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 position = Vector2(0, 8)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_rixb3")
 animation = &"walk"
 
