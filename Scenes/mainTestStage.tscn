@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=25 format=3 uid="uid://cqe2ttqny5guu"]
 
 [ext_resource type="Script" uid="uid://dftpojltkwlqf" path="res://Scripts/TestStateMachinePlayer.gd" id="1_p2skt"]
+[ext_resource type="Texture2D" uid="uid://co351xg8mpp7i" path="res://icon.svg" id="1_rixb3"]
 [ext_resource type="Texture2D" uid="uid://bcgboytfl463e" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_001.png" id="2_hy1cj"]
 [ext_resource type="Texture2D" uid="uid://4somqqy6qiow" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_003.png" id="3_mqcjl"]
 [ext_resource type="Texture2D" uid="uid://dau73ss1sb1yf" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_005.png" id="4_ehspr"]
@@ -20,8 +21,8 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_td0ke"]
-radius = 65.0
-height = 348.0
+radius = 72.0
+height = 554.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rixb3"]
 animations = [{
@@ -182,15 +183,104 @@ _data = {
 
 [node name="MainTestStage" type="Node"]
 
+[node name="BG" type="Node2D" parent="."]
+
+[node name="Level3" type="Parallax2D" parent="BG"]
+scroll_scale = Vector2(0.03, 0.03)
+
+[node name="BG6" type="Sprite2D" parent="BG/Level3"]
+position = Vector2(-1005, 1024)
+rotation = -0.282743
+scale = Vector2(25.0318, 16.864)
+texture = ExtResource("1_rixb3")
+
+[node name="Level2" type="Parallax2D" parent="BG"]
+scroll_scale = Vector2(0.1, 0.1)
+
+[node name="BG" type="Sprite2D" parent="BG/Level2"]
+position = Vector2(2726, 787)
+rotation = 0.314159
+scale = Vector2(21.4708, 9.53236)
+texture = ExtResource("1_rixb3")
+
+[node name="BG4" type="Sprite2D" parent="BG/Level2"]
+position = Vector2(1811, 2369)
+rotation = 0.0523599
+scale = Vector2(42.4541, 21.6256)
+texture = ExtResource("1_rixb3")
+
+[node name="BG2" type="Sprite2D" parent="BG/Level2"]
+position = Vector2(-171, 974)
+rotation = -0.403171
+scale = Vector2(21.4708, 9.53235)
+texture = ExtResource("1_rixb3")
+
+[node name="BG3" type="Sprite2D" parent="BG/Level2"]
+position = Vector2(4017, 879)
+rotation = -0.403171
+scale = Vector2(21.4708, 9.53235)
+texture = ExtResource("1_rixb3")
+
+[node name="Level1" type="Parallax2D" parent="BG"]
+scroll_scale = Vector2(0.7, 0.7)
+
+[node name="BG2" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(2129, 845)
+rotation = -2.79602
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG3" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(211, 782)
+rotation = -0.282743
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG4" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(1222, 995)
+rotation = 0.195477
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG5" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(-738.722, 1038.12)
+rotation = -2.79602
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG7" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(-1646.72, 1134.12)
+rotation = 0.195477
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG8" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(5358.28, 997.119)
+rotation = -4.35111
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG9" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(3440.28, 934.119)
+rotation = -4.35111
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
+[node name="BG10" type="Sprite2D" parent="BG/Level1"]
+position = Vector2(4451.28, 1147.12)
+rotation = -3.39292
+scale = Vector2(7.72417, 6.52797)
+texture = ExtResource("1_rixb3")
+
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(0, 880)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
 
 [node name="ColorRect" type="ColorRect" parent="Floor"]
-offset_left = -183.0
-offset_right = 2227.0
-offset_bottom = 391.0
+offset_left = -2495.0
+offset_right = 6291.0
+offset_bottom = 1080.0
 color = Color(0.67069, 0.67069, 0.67069, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
@@ -208,8 +298,6 @@ script = ExtResource("1_p2skt")
 shape = SubResource("CapsuleShape2D_td0ke")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
-position = Vector2(0, 8)
-scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_rixb3")
 animation = &"idle"
 
@@ -235,3 +323,9 @@ offset_bottom = -88.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 29
 text = "X"
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(0, -230)
+zoom = Vector2(0.8, 0.8)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0

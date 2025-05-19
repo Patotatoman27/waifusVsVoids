@@ -7,11 +7,12 @@ const ANIMFPS = 16;
 @onready var frameLabel: Label = $FrameLabel
 
 #Atributos
-const GRAVITY := 2680;
-const JUMPVELOCITY := 1580;
-const ADDITIONALGRAVITY := 1250;
+const GRAVITY := 2680*2;
+const JUMPVELOCITY := 1580*1.5;
+const ADDITIONALGRAVITY := 1250*2;
 const ACCELERATION := 5000;
-const MAXHSPEED := 500;
+const MAXHSPEED := 850;
+const AIRHSPEED := 600;
 
 #Condiciones
 var canJump : bool;
@@ -19,7 +20,7 @@ var quequeJumpFrames : int;
 const QUEQUEJUMPFRAMES : int = 7;
 var canDoubleJump : bool;
 var quequeDoubleJumpFrames : int;
-const QUEQUEDOUBLEJUMPFRAMES : int = 3;
+const QUEQUEDOUBLEJUMPFRAMES : int = 5;
 var direction : float;
 
 #States
@@ -38,28 +39,36 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	match state:
 		States.idle:
+			DirectionDetection();
 			velocity.x = 0;
 			velocity.y = 0;
 			anim.play("Idle");
 			if not is_on_floor():
 				state = States.fall;
-			JumpLogic(false);
-			WalkLogic();
 			if direction != 0:
 				state = States.walk;
+			JumpLogic(false);
 		States.fall:
 			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
 			if is_on_floor():
-				state = States.idle;
+				DirectionDetection()
+				if direction != 0:
+					state = States.walk;
+				else:
+					state = States.idle;
 			JumpLogic(true);
 		States.realfall:
 			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
 			if is_on_floor():
-				state = States.idle;
+				DirectionDetection()
+				if direction != 0:
+					state = States.walk;
+				else:
+					state = States.idle;
 			JumpLogic(false);
 		States.jump:
 			velocity.y += (GRAVITY) * delta;
-			if velocity.y > -350:
+			if velocity.y > -600:
 				JumpLogic(true);
 			if velocity.y >= 0:
 				state = States.fall;
@@ -68,15 +77,15 @@ func _process(delta: float) -> void:
 			if velocity.y > 0:
 				state = States.realfall;
 		States.walk:
+			DirectionDetection();
 			velocity.y = 0;
-			WalkLogic();
 			velocity.x += direction * ACCELERATION * delta;
 			anim.play("Walk");
 			if abs(velocity.x) > MAXHSPEED:
 				velocity.x = sign(velocity.x) * MAXHSPEED;
-			
 			if direction == 0:
 				state = States.idle;
+			JumpLogic(false);
 			
 	move_and_slide();
 	
@@ -107,11 +116,25 @@ func JumpLogic(isDouble: bool) -> void:
 	if is_on_floor() and canJump and not isDouble:
 		velocity.y = -JUMPVELOCITY;
 		quequeJumpFrames = 0;
+		DirectionDetection()
+		if direction != 0:
+			if direction > 0:
+				velocity.x = AIRHSPEED
+			else:
+				velocity.x = -AIRHSPEED
 		state = States.jump;
 	if canDoubleJump and isDouble:
 		velocity.y = -JUMPVELOCITY * 0.8;
 		quequeJumpFrames = 0;
+		DirectionDetection()
+		if direction != 0:
+			if direction > 0:
+				velocity.x = AIRHSPEED
+			else:
+				velocity.x = -AIRHSPEED
+		else:
+			velocity.x = 0;
 		state = States.doublejump;
 		
-func WalkLogic():
+func DirectionDetection():
 	direction = Input.get_axis("P1_Left", "P1_Right")
