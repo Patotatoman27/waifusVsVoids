@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 #Atributos
 const SPEED = 500.0
-@export var JUMP_VELOCITY : int;
+var JUMP_VELOCITY : int = -1280;
 const QUEQUE_JUMP_FRAMES = 10;
 const GRAVITY = 2280;
 const ACCELERATION = 5000

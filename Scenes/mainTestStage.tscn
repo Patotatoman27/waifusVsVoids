@@ -1,6 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=24 format=3 uid="uid://cqe2ttqny5guu"]
 
-[ext_resource type="Script" uid="uid://bv1gb0grq3pm2" path="res://Scripts/TestPlayer.gd" id="1_464m7"]
+[ext_resource type="Script" uid="uid://dftpojltkwlqf" path="res://Scripts/TestStateMachinePlayer.gd" id="1_p2skt"]
 [ext_resource type="Texture2D" uid="uid://bcgboytfl463e" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_001.png" id="2_hy1cj"]
 [ext_resource type="Texture2D" uid="uid://4somqqy6qiow" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_003.png" id="3_mqcjl"]
 [ext_resource type="Texture2D" uid="uid://dau73ss1sb1yf" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_005.png" id="4_ehspr"]
@@ -88,7 +88,7 @@ animations = [{
 
 [sub_resource type="Animation" id="Animation_dfr5b"]
 resource_name = "Idle"
-length = 0.937506
+length = 1.00001
 loop_mode = 1
 step = 0.0625
 tracks/0/type = "value"
@@ -102,6 +102,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
 }
 
 [sub_resource type="Animation" id="Animation_yd757"]
@@ -118,11 +130,54 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+
+[sub_resource type="Animation" id="Animation_p2skt"]
+resource_name = "Walk"
+length = 0.875006
+loop_mode = 1
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"walk"]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xyyx0"]
 _data = {
 &"Idle": SubResource("Animation_dfr5b"),
-&"RESET": SubResource("Animation_yd757")
+&"RESET": SubResource("Animation_yd757"),
+&"Walk": SubResource("Animation_p2skt")
 }
 
 [node name="MainTestStage" type="Node"]
@@ -145,9 +200,9 @@ collision_mask = 0
 shape = SubResource("WorldBoundaryShape2D_464m7")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(976, 0)
 collision_layer = 2
-script = ExtResource("1_464m7")
-JUMP_VELOCITY = -1300
+script = ExtResource("1_p2skt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_td0ke")
@@ -156,10 +211,27 @@ shape = SubResource("CapsuleShape2D_td0ke")
 position = Vector2(0, 8)
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_rixb3")
-animation = &"walk"
+animation = &"idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D"]
 libraries = {
 &"": SubResource("AnimationLibrary_xyyx0")
 }
-autoplay = "Idle"
+
+[node name="StateLabel" type="Label" parent="CharacterBody2D"]
+offset_left = 93.0
+offset_top = -213.0
+offset_right = 182.0
+offset_bottom = -130.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 29
+text = "STATE"
+
+[node name="FrameLabel" type="Label" parent="CharacterBody2D"]
+offset_left = 95.0
+offset_top = -171.0
+offset_right = 184.0
+offset_bottom = -88.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 29
+text = "X"
