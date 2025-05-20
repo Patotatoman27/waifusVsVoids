@@ -54,11 +54,6 @@ animations = [{
 "name": &"idle",
 "speed": 8.0
 }, {
-"frames": [],
-"loop": true,
-"name": &"new_animation",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("9_3fyvd")
