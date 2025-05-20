@@ -62,6 +62,26 @@ P1_Jump={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":-1.0,"script":null)
 ]
 }
+P2_Up={
+"deadzone": 0.2,
+"events": []
+}
+P2_Down={
+"deadzone": 0.2,
+"events": []
+}
+P2_Left={
+"deadzone": 0.2,
+"events": []
+}
+P2_Right={
+"deadzone": 0.2,
+"events": []
+}
+P2_Jump={
+"deadzone": 0.2,
+"events": []
+}
 
 [layer_names]
 

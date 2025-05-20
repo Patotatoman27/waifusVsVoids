@@ -1,0 +1,156 @@
+[gd_scene load_steps=26 format=3 uid="uid://cofy0cjary8ls"]
+
+[ext_resource type="Script" uid="uid://dftpojltkwlqf" path="res://Scripts/TestStateMachinePlayer.gd" id="1_3qb1x"]
+[ext_resource type="Texture2D" uid="uid://bcgboytfl463e" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_001.png" id="1_8j6t0"]
+[ext_resource type="Texture2D" uid="uid://4somqqy6qiow" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_003.png" id="2_3qb1x"]
+[ext_resource type="Texture2D" uid="uid://dau73ss1sb1yf" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_005.png" id="3_gqbvt"]
+[ext_resource type="Texture2D" uid="uid://bo73o5cq0e0ol" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_007.png" id="4_xdg03"]
+[ext_resource type="Texture2D" uid="uid://cn21gcepteakv" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_009.png" id="5_kkaw2"]
+[ext_resource type="Texture2D" uid="uid://boxeahdsdvq7s" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_011.png" id="6_yi6b3"]
+[ext_resource type="Texture2D" uid="uid://chjudsqt2f4i" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_013.png" id="7_2tc23"]
+[ext_resource type="Texture2D" uid="uid://bf3s3kvm7xyx5" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_015.png" id="8_0pw0j"]
+[ext_resource type="Texture2D" uid="uid://bekuhs8j4y7kc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_001.png" id="9_3fyvd"]
+[ext_resource type="Texture2D" uid="uid://ch8f2ke2odc83" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_003.png" id="10_bu8jx"]
+[ext_resource type="Texture2D" uid="uid://bjtjyysxd6wfc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_005.png" id="11_wvkmv"]
+[ext_resource type="Texture2D" uid="uid://ce7qwtcimnpp4" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_007.png" id="12_tyen2"]
+[ext_resource type="Texture2D" uid="uid://bpb5e0rqe6mv7" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_009.png" id="13_vkq4d"]
+[ext_resource type="Texture2D" uid="uid://dthw3hpeod17t" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_011.png" id="14_fomyo"]
+[ext_resource type="Texture2D" uid="uid://2pvkt0rpa1ya" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_013.png" id="15_16o68"]
+[ext_resource type="Animation" uid="uid://d4nca3xqajht6" path="res://Animations/EmptyAlfa/Neumann/NeumannIdle.res" id="17_kkaw2"]
+[ext_resource type="Animation" uid="uid://du3xke6l4e7ix" path="res://Animations/EmptyAlfa/Neumann/NeumannRESET.res" id="18_yi6b3"]
+[ext_resource type="Animation" uid="uid://dkujy00te3kj7" path="res://Animations/EmptyAlfa/Neumann/NeumannWalk.res" id="19_2tc23"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_82c7i"]
+size = Vector2(173, 502)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y1cbw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8j6t0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_3qb1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gqbvt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xdg03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kkaw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_yi6b3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_2tc23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0pw0j")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_3fyvd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_bu8jx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_wvkmv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_tyen2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_vkq4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_fomyo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_16o68")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xyyx0"]
+_data = {
+&"Idle": ExtResource("17_kkaw2"),
+&"RESET": ExtResource("18_yi6b3"),
+&"Walk": ExtResource("19_2tc23")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3qb1x"]
+size = Vector2(130.661, 126.875)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gqbvt"]
+size = Vector2(185, 279)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdg03"]
+size = Vector2(241, 260)
+
+[node name="Neumann" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_3qb1x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9.5, 20)
+shape = SubResource("RectangleShape2D_82c7i")
+debug_color = Color(0, 0.595, 0.7, 0.156863)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_y1cbw")
+animation = &"idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xyyx0")
+}
+
+[node name="StateLabel" type="Label" parent="."]
+offset_left = 140.0
+offset_top = -361.0
+offset_right = 276.0
+offset_bottom = -278.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 47
+text = "STATE"
+
+[node name="FrameLabel" type="Label" parent="."]
+offset_left = 140.0
+offset_top = -305.0
+offset_right = 229.0
+offset_bottom = -222.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "X"
+
+[node name="Hurtboxes" type="Area2D" parent="."]
+
+[node name="HurtBox1" type="CollisionShape2D" parent="Hurtboxes"]
+position = Vector2(49.6697, -279.563)
+shape = SubResource("RectangleShape2D_3qb1x")
+debug_color = Color(0.299179, 0.616929, 0.349787, 0.42)
+
+[node name="HurtBox2" type="CollisionShape2D" parent="Hurtboxes"]
+position = Vector2(4.5, -104.5)
+shape = SubResource("RectangleShape2D_gqbvt")
+debug_color = Color(0.299179, 0.616929, 0.349787, 0.42)
+
+[node name="HurtBox3" type="CollisionShape2D" parent="Hurtboxes"]
+position = Vector2(2.5, 154)
+shape = SubResource("RectangleShape2D_xdg03")
+debug_color = Color(0.299179, 0.616929, 0.349787, 0.42)

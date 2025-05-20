@@ -1,4 +1,6 @@
 extends CharacterBody2D
+@export var isplayerOne : bool;
+var PX : String;
 
 #Referencias
 const ANIMFPS = 16;
@@ -34,6 +36,10 @@ func _ready() -> void:
 	canDoubleJump = false;
 	canJump = true;
 	direction = 0;
+	if isplayerOne:
+		PX = "P1";
+	else:
+		PX = "P2";
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -81,6 +87,8 @@ func _process(delta: float) -> void:
 			velocity.y = 0;
 			velocity.x += direction * ACCELERATION * delta;
 			anim.play("Walk");
+			if not is_on_floor():
+				state = States.fall;
 			if abs(velocity.x) > MAXHSPEED:
 				velocity.x = sign(velocity.x) * MAXHSPEED;
 			if direction == 0:
@@ -95,12 +103,12 @@ func _process(delta: float) -> void:
 	stateLabel.text = str(States.keys()[state]);
 
 func JumpLogic(isDouble: bool) -> void:
-	if Input.is_action_pressed("P1_Jump"):
+	if Input.is_action_pressed(PX + "_Jump"):
 		if not isDouble:
 			quequeJumpFrames = QUEQUEJUMPFRAMES;
 			canJump = true;
 		else:
-			if Input.is_action_just_pressed("P1_Jump"):
+			if Input.is_action_just_pressed(PX + "_Jump"):
 				quequeDoubleJumpFrames = QUEQUEDOUBLEJUMPFRAMES;
 				canDoubleJump = true;
 	else:
@@ -137,4 +145,4 @@ func JumpLogic(isDouble: bool) -> void:
 		state = States.doublejump;
 		
 func DirectionDetection():
-	direction = Input.get_axis("P1_Left", "P1_Right")
+	direction = Input.get_axis(PX + "_Left", PX + "_Right")

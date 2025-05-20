@@ -115,14 +115,10 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D"]
 shape = SubResource("WorldBoundaryShape2D_464m7")
 
-[node name="Players" type="Node2D" parent="."]
-
-[node name="Player1" parent="Players" instance=ExtResource("2_ahojx")]
+[node name="Player1" parent="." instance=ExtResource("2_ahojx")]
 isplayerOne = true
 
-[node name="Camera2D" type="Camera2D" parent="Players/Player1"]
+[node name="Camera2D" type="Camera2D" parent="Player1"]
 position = Vector2(640, -90)
 zoom = Vector2(0.8, 0.8)
 script = ExtResource("3_h2cow")
-
-[node name="Player2" parent="Players" instance=ExtResource("2_ahojx")]
