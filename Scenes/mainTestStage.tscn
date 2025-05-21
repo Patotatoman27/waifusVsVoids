@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=5 format=3 uid="uid://cqe2ttqny5guu"]
 
 [ext_resource type="Texture2D" uid="uid://co351xg8mpp7i" path="res://icon.svg" id="1_rixb3"]
+[ext_resource type="PackedScene" uid="uid://cofy0cjary8ls" path="res://Scenes/Neumann.tscn" id="2_h2cow"]
 [ext_resource type="Script" uid="uid://cfjtxgibjwiw1" path="res://Scripts/camera.gd" id="3_h2cow"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
@@ -116,9 +117,15 @@ shape = SubResource("WorldBoundaryShape2D_464m7")
 
 [node name="Players" type="Node2D" parent="."]
 
-[node name="Camera2D" type="Camera2D" parent="Players"]
-position = Vector2(640, -190)
+[node name="Neumann" parent="Players" instance=ExtResource("2_h2cow")]
+isplayerOne = true
+
+[node name="Neumann2" parent="Players" instance=ExtResource("2_h2cow")]
+position = Vector2(1968, 249)
+scale = Vector2(-1, 1)
+flipLabelDebug = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 381)
 zoom = Vector2(0.8, 0.8)
 script = ExtResource("3_h2cow")
-
-[node name="Player2" type="Node2D" parent="."]

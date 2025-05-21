@@ -1,4 +1,6 @@
 extends CharacterBody2D
+
+#Jugador
 @export var isplayerOne : bool;
 var PX : String;
 
@@ -9,6 +11,7 @@ const ANIMFPS = 16;
 @onready var frameLabel: Label = $FrameLabel
 
 #Atributos
+@export var flipLabelDebug : bool;
 const GRAVITY := 2680*2;
 const JUMPVELOCITY := 1580*1.5;
 const ADDITIONALGRAVITY := 1250*2;
@@ -32,14 +35,23 @@ var state : States;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#Estado y condiciones iniciales
 	state = States.idle;
 	canDoubleJump = false;
 	canJump = true;
 	direction = 0;
+	
+	#Jugador actual
 	if isplayerOne:
 		PX = "P1";
 	else:
 		PX = "P2";
+	
+	#Labels de Debug
+	if flipLabelDebug:
+		stateLabel.scale *= Vector2(-1,1)
+		frameLabel.scale *= Vector2(-1,1)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
