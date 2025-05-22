@@ -80,16 +80,13 @@ func _process(delta: float) -> void:
 	#State management
 	match state:
 		States.hitstun:
-			scale.y = 1;
 			#print("en Hitstun: " + str(hitstunFrames));
 			frameLabel.text = str(int(floor(hitstunFrames)));
 			hitstunFrames -= ANIMFPS * delta;
 			if hitstunFrames <= 0:
 				if is_on_floor():
-					scale.y = -1;
 					state = States.idle;
 				else:
-					scale.y = -1;
 					state = States.fall;
 		States.idle:
 			DirectionDetection();
@@ -101,36 +98,6 @@ func _process(delta: float) -> void:
 			if direction != 0:
 				state = States.walk;
 			JumpLogic(false);
-		States.fall:
-			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
-			if is_on_floor():
-				DirectionDetection()
-				if direction != 0:
-					state = States.walk;
-				else:
-					state = States.idle;
-			JumpLogic(true);
-		States.realfall:
-			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
-			if is_on_floor():
-				DirectionDetection()
-				if direction != 0:
-					state = States.walk;
-				else:
-					state = States.idle;
-			JumpLogic(false);
-		States.jump:
-			velocity.y += (GRAVITY) * delta;
-			if velocity.y > -600:
-				JumpLogic(true);
-			if velocity.y >= 0:
-				state = States.fall;
-		States.doublejump:
-			move = Moveset.jumpKick
-			velocity.y += (GRAVITY) * delta;
-			if velocity.y > 0:
-				move = Moveset.nulo;
-				state = States.realfall;
 		States.walk:
 			move = Moveset.walkKick
 			DirectionDetection();
@@ -145,6 +112,37 @@ func _process(delta: float) -> void:
 			if direction == 0:
 				move = Moveset.nulo;
 				state = States.idle;
+			JumpLogic(false);
+		States.jump:
+			velocity.y += (GRAVITY) * delta;
+			if velocity.y > -600:
+				JumpLogic(true);
+			if velocity.y >= 0:
+				state = States.fall;
+		States.doublejump:
+			move = Moveset.jumpKick
+			velocity.y += (GRAVITY) * delta;
+			if velocity.y > 0:
+				state = States.realfall;
+		States.fall:
+			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+			if is_on_floor():
+				DirectionDetection()
+				if direction != 0:
+					state = States.walk;
+				else:
+					state = States.idle;
+			JumpLogic(true);
+		States.realfall:
+			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+			if is_on_floor():
+				DirectionDetection()
+				if direction != 0:
+					move = Moveset.nulo;
+					state = States.walk;
+				else:
+					move = Moveset.nulo;
+					state = States.idle;
 			JumpLogic(false);
 			
 	move_and_slide();
@@ -213,10 +211,12 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 					players.decreaseHealth(1, 5);
 					hitstunFrames = 14;
 					state = States.hitstun;
+					Hitstop.hitStop(0.15)
 				Moveset.jumpKick:
 					players.decreaseHealth(1, 30);
 					hitstunFrames = 7;
 					state = States.hitstun;
+					Hitstop.hitStop(0.5)
 		else:
 			print(Moveset.keys()[player1.move])
 			match player1.move:
@@ -224,7 +224,9 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 					players.decreaseHealth(2, 5);
 					hitstunFrames = 14;
 					state = States.hitstun;
+					Hitstop.hitStop(0.15)
 				Moveset.jumpKick:
 					players.decreaseHealth(2, 30);
 					hitstunFrames = 7;
 					state = States.hitstun;
+					Hitstop.hitStop(0.5)
