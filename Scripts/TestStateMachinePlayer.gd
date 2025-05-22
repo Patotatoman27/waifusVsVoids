@@ -6,6 +6,9 @@ var PX : String;
 
 #Referencias
 @onready var players = $"..";
+@onready var player1: CharacterBody2D = $"../Player1"
+@onready var player2: CharacterBody2D = $"../Player2"
+
 const ANIMFPS = 16;
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var hurtboxes: Area2D = $Hurtboxes
@@ -34,7 +37,7 @@ var hitstunFrames : float;
 
 #States
 enum States {idle, fall, jump, doublejump, realfall, walk, hitstun};
-enum Moveset {nulo, walkKick}
+enum Moveset {nulo, walkKick, jumpKick}
 var state : States;
 var move : Moveset;
 
@@ -123,19 +126,24 @@ func _process(delta: float) -> void:
 			if velocity.y >= 0:
 				state = States.fall;
 		States.doublejump:
+			move = Moveset.jumpKick
 			velocity.y += (GRAVITY) * delta;
 			if velocity.y > 0:
+				move = Moveset.nulo;
 				state = States.realfall;
 		States.walk:
+			move = Moveset.walkKick
 			DirectionDetection();
 			velocity.y = 0;
 			velocity.x += direction * ACCELERATION * delta;
-			anim.play("Walk");
-			if not is_on_floor():
-				state = States.fall;
 			if abs(velocity.x) > MAXHSPEED:
 				velocity.x = sign(velocity.x) * MAXHSPEED;
+			anim.play("Walk");
+			if not is_on_floor():
+				move = Moveset.nulo;
+				state = States.fall;
 			if direction == 0:
+				move = Moveset.nulo;
 				state = States.idle;
 			JumpLogic(false);
 			
@@ -175,6 +183,7 @@ func JumpLogic(isDouble: bool) -> void:
 				velocity.x = AIRHSPEED
 			else:
 				velocity.x = -AIRHSPEED
+		move = Moveset.nulo;
 		state = States.jump;
 	if canDoubleJump and isDouble:
 		velocity.y = -JUMPVELOCITY * 0.8;
@@ -187,6 +196,7 @@ func JumpLogic(isDouble: bool) -> void:
 				velocity.x = -AIRHSPEED
 		else:
 			velocity.x = 0;
+		move = Moveset.nulo;
 		state = States.doublejump;
 		
 func DirectionDetection():
@@ -196,9 +206,25 @@ func DirectionDetection():
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	if state != States.hitstun:
 		print("Golpe: ")
-		hitstunFrames = 14;
-		state = States.hitstun;
 		if isplayerOne:
-			players.decreaseHealth(1, 5);
+			print(Moveset.keys()[player2.move])
+			match player2.move:
+				Moveset.walkKick:
+					players.decreaseHealth(1, 5);
+					hitstunFrames = 14;
+					state = States.hitstun;
+				Moveset.jumpKick:
+					players.decreaseHealth(1, 30);
+					hitstunFrames = 7;
+					state = States.hitstun;
 		else:
-			players.decreaseHealth(2, 5);
+			print(Moveset.keys()[player1.move])
+			match player1.move:
+				Moveset.walkKick:
+					players.decreaseHealth(2, 5);
+					hitstunFrames = 14;
+					state = States.hitstun;
+				Moveset.jumpKick:
+					players.decreaseHealth(2, 30);
+					hitstunFrames = 7;
+					state = States.hitstun;
