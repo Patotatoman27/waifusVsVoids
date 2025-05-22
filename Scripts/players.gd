@@ -16,7 +16,7 @@ var healthP2 : int;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	fillHealthBar(0, 100);
+	fillHealthBar(0, 200);
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,16 +28,16 @@ func fillHealthBar(player : int, maxhealth : int):
 	match player:
 		1:
 			healthP1 = maxhealth;
-			P1healthBar.value = maxhealth;
 			P1healthBar.max_value = maxhealth;
-			P1hittedBar.value = maxhealth;
+			P1healthBar.value = maxhealth;
 			P1hittedBar.max_value = maxhealth;
+			P1hittedBar.value = maxhealth;
 		2:
 			healthP2 = maxhealth;
-			P2healthBar.value = maxhealth;
 			P2healthBar.max_value = maxhealth;
-			P2hittedBar.value = maxhealth;
+			P2healthBar.value = maxhealth;
 			P2hittedBar.max_value = maxhealth;
+			P2hittedBar.value = maxhealth;	
 		0:
 			fillHealthBar(1, maxhealth);
 			fillHealthBar(2, maxhealth);
