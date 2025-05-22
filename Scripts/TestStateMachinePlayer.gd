@@ -124,7 +124,8 @@ func _process(delta: float) -> void:
 			if not is_on_floor():
 				move = Moveset.nulo;
 				state = States.fall;
-			if direction == 0:
+			if abs(velocity.x) < 50:
+				print(str(myChar) + str(velocity.x));
 				move = Moveset.nulo;
 				state = States.idle;
 			JumpLogic(false);

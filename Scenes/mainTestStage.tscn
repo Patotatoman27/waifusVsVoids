@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://cqe2ttqny5guu"]
 
+[ext_resource type="Script" uid="uid://tre0ie78v071" path="res://Scripts/universal.gd" id="1_dcfvu"]
 [ext_resource type="Texture2D" uid="uid://co351xg8mpp7i" path="res://icon.svg" id="1_rixb3"]
 [ext_resource type="Script" uid="uid://cxa4tig81l10j" path="res://Scripts/players.gd" id="2_32nq4"]
-[ext_resource type="PackedScene" uid="uid://cofy0cjary8ls" path="res://Scenes/Neumann.tscn" id="2_h2cow"]
 [ext_resource type="StyleBox" uid="uid://d111n51vqq7fa" path="res://Styles/P1HealthBar.tres" id="5_g7o71"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
@@ -14,6 +14,9 @@ bg_color = Color(1, 1, 1, 1)
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="MainTestStage" type="Node"]
+
+[node name="Universal" type="Node" parent="."]
+script = ExtResource("1_dcfvu")
 
 [node name="BG" type="Node2D" parent="."]
 visible = false
@@ -111,9 +114,13 @@ position = Vector2(0, 880)
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
 
 [node name="ColorRect" type="ColorRect" parent="Floor"]
-offset_left = -2495.0
-offset_right = 6291.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4393.0
+offset_right = 4393.0
 offset_bottom = 1080.0
+grow_horizontal = 2
 color = Color(0.67069, 0.67069, 0.67069, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
@@ -124,16 +131,6 @@ shape = SubResource("WorldBoundaryShape2D_464m7")
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("2_32nq4")
-
-[node name="Camera2D" type="Camera2D" parent="Players"]
-position = Vector2(960, 381)
-zoom = Vector2(0.8, 0.8)
-
-[node name="Player1" parent="Players" instance=ExtResource("2_h2cow")]
-isplayerOne = true
-
-[node name="Player2" parent="Players" instance=ExtResource("2_h2cow")]
-position = Vector2(1968, 249)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -190,6 +187,10 @@ metadata/_edit_use_anchors_ = true
 [node name="P2HittedDelay" type="Timer" parent="CanvasLayer/P2HittedBar"]
 wait_time = 1.5
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 381)
+zoom = Vector2(0.8, 0.8)
 
 [connection signal="timeout" from="CanvasLayer/P1HittedBar/P1HittedDelay" to="Players" method="_on_p_1_hitted_delay_timeout"]
 [connection signal="timeout" from="CanvasLayer/P2HittedBar/P2HittedDelay" to="Players" method="_on_p_2_hitted_delay_timeout"]
