@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 #Jugador
-@export var isplayerOne : bool;
+@export var isplayerOne : bool; 
 var PX : String;
 
 #Referencias //Players
@@ -20,28 +20,33 @@ const ANIMFPS = 16;
 @onready var frameLabel: Label = $FrameLabel
 
 #Atributos
-@export var isFlipped : bool;
-const MAXHSPEED := 850;
-const ACCEL = 20
-const FRICTION = 15
-const GRAVITY := 2680*2;
-const JUMPVELOCITY := 1580*1.5;
-const ADDITIONALGRAVITY := 1250*2;
+@export var isFlipped : bool; #Bool. Si el Sprite está flipeado o no.
+const MAXHSPEED := 850; #Movimiento Terrestre
 const ACCELERATION := 5000;
-const AIRHSPEED := 600;
+const ACCEL = 20 #Friccion/Frenado
+const FRICTION = 15
+const GRAVITY := 2680*2; #Caida
+const ADDITIONALGRAVITY := 1250*2;
+const JUMPVELOCITY := 1580*1.5;#Salto
+const AIRHSPEED := 600;#Horizontal Aereo
+const DASHHOLDFRAMES := 3;
+const DASHSPEED := 1500;
+const AIRFLIPPEDDISTANCE := 100; #Pixeles despues de Vict.Pos.x para que se voltee en el aire.
 
 #Condiciones
-var canJump : bool;
+var direction : float; #Input.X de jugador. Solo confirmado en X momentos
+var originalFlippedState : bool; #Estado de Flipped al dejar el suelo.
+var canJump : bool; #Salto
 var quequeJumpFrames : int;
 const QUEQUEJUMPFRAMES : int = 7;
-var canDoubleJump : bool;
+var canDoubleJump : bool; #DobleSalto
 var quequeDoubleJumpFrames : int;
 const QUEQUEDOUBLEJUMPFRAMES : int = 5;
-var direction : float;
-var hitstunFrames : float;
+var hitstunFrames : float; #Golpes
+var dashHoldFrames : int;
 
 #States
-enum States {idle, fall, jump, doublejump, realfall, walk, hitstun};
+enum States {idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
 var state : States;
 
 #Moveset
@@ -89,7 +94,6 @@ func _process(delta: float) -> void:
 	#State management
 	match state:
 		States.hitstun:
-			#print("en Hitstun: " + str(hitstunFrames));
 			frameLabel.text = str(int(floor(hitstunFrames)));
 			direction = 0;
 			if not is_on_floor():
@@ -111,7 +115,9 @@ func _process(delta: float) -> void:
 				state = States.fall;
 			if direction != 0:
 				state = States.walk;
+			FlippedOriginalStateDetection() #Solo en los que salen del suelo
 			JumpLogic(false);
+			DashLogic();
 		States.walk:
 			move = Moveset.walkKick
 			DirectionDetection();
@@ -124,11 +130,37 @@ func _process(delta: float) -> void:
 			if not is_on_floor():
 				move = Moveset.nulo;
 				state = States.fall;
-			if abs(velocity.x) < 50:
-				print(str(myChar) + str(velocity.x));
+			if direction == 0:
 				move = Moveset.nulo;
 				state = States.idle;
+			FlippedOriginalStateDetection();
 			JumpLogic(false);
+			DashLogic();
+		States.dashStart:
+			velocity = Vector2(0,0);
+			anim.play("Dash");
+			DirectionDetection();
+			state = States.dash;
+		States.dash:
+			if direction < 0:
+				velocity.x = -DASHSPEED;
+			else:
+				velocity.x = DASHSPEED;
+			velocity.y = 0;
+			if int(anim.current_animation_position * ANIMFPS) >= 7:
+				dashHoldFrames = 0;
+				state = States.dashHold;
+		States.dashHold:
+			velocity.x = 0;
+			velocity.y = 0;
+			dashHoldFrames += 1;
+			if dashHoldFrames >= DASHHOLDFRAMES:
+				DirectionDetection();
+				AirDirectionLogic();
+				if is_on_floor():
+					state = States.idle;
+				else:
+					state = States.realfall;
 		States.jump:
 			velocity.y += (GRAVITY) * delta;
 			anim.play("Walk");
@@ -136,14 +168,18 @@ func _process(delta: float) -> void:
 				JumpLogic(true);
 			if velocity.y >= 0:
 				state = States.fall;
+			AirDirectionLogic();
+			DashLogic();
 		States.doublejump:
 			move = Moveset.jumpKick
 			velocity.y += (GRAVITY) * delta;
 			anim.play("WalkKick");
 			if velocity.y > 0:
 				state = States.realfall;
+			AirDirectionLogic();
 		States.fall:
 			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+			anim.play("Walk");
 			if is_on_floor():
 				DirectionDetection()
 				if direction != 0:
@@ -151,8 +187,11 @@ func _process(delta: float) -> void:
 				else:
 					state = States.idle;
 			JumpLogic(true);
+			AirDirectionLogic();
+			DashLogic();
 		States.realfall:
 			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+			anim.play("Walk");
 			if is_on_floor():
 				DirectionDetection()
 				if direction != 0:
@@ -162,16 +201,14 @@ func _process(delta: float) -> void:
 					move = Moveset.nulo;
 					state = States.idle;
 			JumpLogic(false);
+			AirDirectionLogic();
 
 	if abs(direction) > 0.01:
 		velocity.x = lerp(velocity.x, direction * MAXHSPEED, ACCEL * delta)
 	else:
 		velocity.x = lerp(velocity.x, 0.0, FRICTION * delta)
 	move_and_slide();
-	if isFlipped:
-		visual.scale.x = -1.0
-	else:
-		visual.scale.x = 1.0
+	visual.scale.x = 1.0 - 2.0 * int(isFlipped)
 	
 	# Betatest
 	if state != States.hitstun:
@@ -222,67 +259,43 @@ func JumpLogic(isDouble: bool) -> void:
 			velocity.x = 0;
 		move = Moveset.nulo;
 		state = States.doublejump;
-		
-func DirectionDetection():
-	direction = Input.get_action_strength(PX + "_Right") - Input.get_action_strength(PX + "_Left")
-
 
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
-	if state != States.hitstun:
-		var attacker
-		var victimID
-		var victim; 
+	#if state != States.hitstun:
+		var victimID;
 		if isplayerOne:
-			attacker = player2;
 			victimID = 1;
-			victim = player1;
 		else:
-			attacker = player1;
 			victimID = 2;
-			victim = player2;
 
-		var move = attacker.move;
-
-		print(Moveset.keys()[move])
-		if move != 0:
-			var data: AttackData = attack_info[move]
+		var hitMove = otherChar.move;
+		print(Moveset.keys()[hitMove]) #Que Movimiento impactó
+		if hitMove != 0:
+			var data: AttackData = attack_info[hitMove]
 			players.decreaseHealth(victimID, data.damage)
 			var VictimDirection;
-			if victim.isFlipped:
+			if myChar.isFlipped:
 				VictimDirection = -1;
 			else:
 				VictimDirection = 1;
-			victim.velocity.x += VictimDirection * -data.knockbackH
+			myChar.velocity.x += VictimDirection * -data.knockbackH
 			hitstunFrames = data.hitstun
 			state = States.hitstun
 			Hitstop.hitStop(data.hitstop)
-			
 
-	#if state != States.hitstun:
-		#print("Golpe: ")
-		#if isplayerOne:
-			#print(Moveset.keys()[player2.move])
-			#match player2.move:
-				#Moveset.walkKick:
-					#players.decreaseHealth(1, 5);
-					#hitstunFrames = 14;
-					#state = States.hitstun;
-					#Hitstop.hitStop(0.15)
-				#Moveset.jumpKick:
-					#players.decreaseHealth(1, 30);
-					#hitstunFrames = 7;
-					#state = States.hitstun;
-					#Hitstop.hitStop(0.5)
-		#else:
-			#print(Moveset.keys()[player1.move])
-			#match player1.move:
-				#Moveset.walkKick:
-					#players.decreaseHealth(2, 5);
-					#hitstunFrames = 14;
-					#state = States.hitstun;
-					#Hitstop.hitStop(0.15)
-				#Moveset.jumpKick:
-					#players.decreaseHealth(2, 30);
-					#hitstunFrames = 7;
-					#state = States.hitstun;
-					#Hitstop.hitStop(0.5)
+
+func DirectionDetection():
+	direction = Input.get_action_strength(PX + "_Right") - Input.get_action_strength(PX + "_Left")
+
+func AirDirectionLogic():
+	if originalFlippedState:
+		isFlipped = (otherChar.position.x - AIRFLIPPEDDISTANCE) < myChar.position.x;
+	else:
+		isFlipped = (otherChar.position.x + AIRFLIPPEDDISTANCE) < myChar.position.x;
+
+func FlippedOriginalStateDetection():
+	originalFlippedState = isFlipped;
+
+func DashLogic():
+	if Input.is_action_just_pressed(PX + "_Dash"):
+		state = States.dashStart;

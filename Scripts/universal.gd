@@ -18,17 +18,15 @@ func SetCharacters():
 		instanciaP1.name = "Player1";
 		player1 = $"../Players/Player1"
 		player1.isplayerOne = true;
-		
 	else:
 		print("No se encontró el nodo ../Players para P1")
+
 	#PLAYER2
 	var instanciaP2 = escenaP2.instantiate()
-	instanciaP2.position = Vector2(960, -700)
-
+	instanciaP2.position = Vector2(960, -700);
 	if nodoPadre:
 		nodoPadre.add_child(instanciaP2)
 		instanciaP2.name = "Player2";
 		player2 = $"../Players/Player2"
-		
 	else:
 		print("No se encontró el nodo ../Players para P2")
