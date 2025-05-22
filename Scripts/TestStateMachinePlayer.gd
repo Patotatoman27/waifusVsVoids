@@ -8,6 +8,8 @@ var PX : String;
 @onready var players = $"..";
 @onready var player1: CharacterBody2D = $"../Player1"
 @onready var player2: CharacterBody2D = $"../Player2"
+var myChar;
+var otherChar;
 			#//Hit and Hurtboxes
 const ANIMFPS = 16;
 @onready var anim: AnimationPlayer = $Visual/AnimationPlayer
@@ -45,7 +47,7 @@ var state : States;
 #Moveset
 enum Moveset {nulo, walkKick, jumpKick}
 var attack_info = {
-	Moveset.walkKick: AttackData.new(5, 14, 0.15, 330, 0),
+	Moveset.walkKick: AttackData.new(5, 3, 0.15, 330, 0),
 	Moveset.jumpKick: AttackData.new(30, 7, 0.5, 500, 0)
 }
 var move : Moveset;
@@ -63,6 +65,8 @@ func _ready() -> void:
 	#Jugador actual
 	if isplayerOne:
 		PX = "P1";
+		myChar = player1;
+		otherChar = player2;
 		#Collision Layers de Hitbox/Hurtbox:
 		hitboxes.collision_layer = 1 << 2
 		hurtboxes.collision_layer = 1 << 3
@@ -70,16 +74,18 @@ func _ready() -> void:
 		hurtboxes.collision_mask = 1 << 4
 	else:
 		PX = "P2";
+		myChar = player2;
+		otherChar = player1;
 		#Collision Layers de Hitbox/Hurtbox:
 		hitboxes.collision_layer = 1 << 4
 		hurtboxes.collision_layer = 1 << 5
 		hitboxes.collision_mask = 1 << 3
 		hurtboxes.collision_mask = 1 << 2
+		
 
 
 #PROCESS
 func _process(delta: float) -> void:
-	#Hit management
 	#State management
 	match state:
 		States.hitstun:
@@ -97,6 +103,7 @@ func _process(delta: float) -> void:
 					state = States.fall;
 		States.idle:
 			DirectionDetection();
+			isFlipped = (otherChar.position.x < myChar.position.x);
 			velocity.x = 0;
 			velocity.y = 0;
 			anim.play("Idle");
@@ -108,6 +115,7 @@ func _process(delta: float) -> void:
 		States.walk:
 			move = Moveset.walkKick
 			DirectionDetection();
+			isFlipped = (otherChar.position.x < myChar.position.x);
 			velocity.y = 0;
 			velocity.x += direction * ACCELERATION * delta;
 			if abs(velocity.x) > MAXHSPEED:
