@@ -5,8 +5,11 @@ extends CharacterBody2D
 var PX : String;
 
 #Referencias
+@onready var players = $"..";
 const ANIMFPS = 16;
 @onready var anim: AnimationPlayer = $AnimationPlayer
+@onready var hurtboxes: Area2D = $Hurtboxes
+@onready var hitboxes: Area2D = $Hitboxes
 @onready var stateLabel: Label = $StateLabel
 @onready var frameLabel: Label = $FrameLabel
 
@@ -27,16 +30,20 @@ var canDoubleJump : bool;
 var quequeDoubleJumpFrames : int;
 const QUEQUEDOUBLEJUMPFRAMES : int = 5;
 var direction : float;
+var hitstunFrames : float;
 
 #States
-enum States {idle, fall, jump, doublejump, realfall, walk};
+enum States {idle, fall, jump, doublejump, realfall, walk, hitstun};
+enum Moveset {nulo, walkKick}
 var state : States;
+var move : Moveset;
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#Estado y condiciones iniciales
 	state = States.idle;
+	move = Moveset.nulo;
 	canDoubleJump = false;
 	canJump = true;
 	direction = 0;
@@ -44,8 +51,19 @@ func _ready() -> void:
 	#Jugador actual
 	if isplayerOne:
 		PX = "P1";
+		#Collision Layers de Hitbox/Hurtbox:
+		hitboxes.collision_layer = 1 << 2
+		hurtboxes.collision_layer = 1 << 3
+		hitboxes.collision_mask = 1 << 5
+		hurtboxes.collision_mask = 1 << 4
 	else:
 		PX = "P2";
+		#Collision Layers de Hitbox/Hurtbox:
+		hitboxes.collision_layer = 1 << 4
+		hurtboxes.collision_layer = 1 << 5
+		hitboxes.collision_mask = 1 << 3
+		hurtboxes.collision_mask = 1 << 2
+	
 	
 	#Labels de Debug
 	if flipLabelDebug:
@@ -55,7 +73,21 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	#Hit management
+	#State management
 	match state:
+		States.hitstun:
+			scale.y = 1;
+			#print("en Hitstun: " + str(hitstunFrames));
+			frameLabel.text = str(int(floor(hitstunFrames)));
+			hitstunFrames -= ANIMFPS * delta;
+			if hitstunFrames <= 0:
+				if is_on_floor():
+					scale.y = -1;
+					state = States.idle;
+				else:
+					scale.y = -1;
+					state = States.fall;
 		States.idle:
 			DirectionDetection();
 			velocity.x = 0;
@@ -110,7 +142,8 @@ func _process(delta: float) -> void:
 	move_and_slide();
 	
 	# Betatest
-	frameLabel.text = str(int(anim.current_animation_position * ANIMFPS))
+	if state != States.hitstun:
+		frameLabel.text = str(int(anim.current_animation_position * ANIMFPS))
 	#frameLabel.text = str(velocity.y)
 	stateLabel.text = str(States.keys()[state]);
 
@@ -158,3 +191,14 @@ func JumpLogic(isDouble: bool) -> void:
 		
 func DirectionDetection():
 	direction = Input.get_axis(PX + "_Left", PX + "_Right")
+
+
+func _on_hurtboxes_area_entered(area: Area2D) -> void:
+	if state != States.hitstun:
+		print("Golpe: ")
+		hitstunFrames = 14;
+		state = States.hitstun;
+		if isplayerOne:
+			players.decreaseHealth(1, 5);
+		else:
+			players.decreaseHealth(2, 5);

@@ -1,10 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=9 format=3 uid="uid://cqe2ttqny5guu"]
 
 [ext_resource type="Texture2D" uid="uid://co351xg8mpp7i" path="res://icon.svg" id="1_rixb3"]
+[ext_resource type="Script" uid="uid://cxa4tig81l10j" path="res://Scripts/players.gd" id="2_32nq4"]
 [ext_resource type="PackedScene" uid="uid://cofy0cjary8ls" path="res://Scenes/Neumann.tscn" id="2_h2cow"]
 [ext_resource type="Script" uid="uid://cfjtxgibjwiw1" path="res://Scripts/camera.gd" id="3_h2cow"]
+[ext_resource type="StyleBox" uid="uid://d111n51vqq7fa" path="res://Styles/P1HealthBar.tres" id="5_g7o71"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7o71"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybx47"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="MainTestStage" type="Node"]
 
@@ -116,6 +124,7 @@ collision_mask = 0
 shape = SubResource("WorldBoundaryShape2D_464m7")
 
 [node name="Players" type="Node2D" parent="."]
+script = ExtResource("2_32nq4")
 
 [node name="Neumann" parent="Players" instance=ExtResource("2_h2cow")]
 isplayerOne = true
@@ -129,3 +138,62 @@ flipLabelDebug = true
 position = Vector2(960, 381)
 zoom = Vector2(0.8, 0.8)
 script = ExtResource("3_h2cow")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="P1HittedBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 50.0
+offset_top = 20.0
+offset_right = 868.0
+offset_bottom = 82.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_g7o71")
+value = 31.0
+show_percentage = false
+
+[node name="P1HealthBar" type="ProgressBar" parent="CanvasLayer/P1HittedBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_ybx47")
+theme_override_styles/fill = ExtResource("5_g7o71")
+value = 21.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="P1HittedDelay" type="Timer" parent="CanvasLayer/P1HittedBar"]
+wait_time = 1.5
+one_shot = true
+
+[node name="P2HittedBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 50.0
+offset_top = 20.0
+offset_right = 868.0
+offset_bottom = 82.0
+scale = Vector2(-1, 1)
+pivot_offset = Vector2(910, 361)
+theme_override_styles/fill = SubResource("StyleBoxFlat_g7o71")
+value = 31.0
+show_percentage = false
+
+[node name="P2HealthBar" type="ProgressBar" parent="CanvasLayer/P2HittedBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_ybx47")
+theme_override_styles/fill = ExtResource("5_g7o71")
+value = 21.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="P2HittedDelay" type="Timer" parent="CanvasLayer/P2HittedBar"]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="CanvasLayer/P1HittedBar/P1HittedDelay" to="Players" method="_on_p_1_hitted_delay_timeout"]
+[connection signal="timeout" from="CanvasLayer/P2HittedBar/P2HittedDelay" to="Players" method="_on_p_2_hitted_delay_timeout"]

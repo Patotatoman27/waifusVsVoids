@@ -87,6 +87,10 @@ P2_Jump={
 
 2d_physics/layer_1="Floor"
 2d_physics/layer_2="Player"
+2d_physics/layer_3="HitboxP1"
+2d_physics/layer_4="HurtboxP1"
+2d_physics/layer_5="HitboxP2"
+2d_physics/layer_6="HurtboxP2"
 
 [rendering]
 
