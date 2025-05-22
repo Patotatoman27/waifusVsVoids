@@ -1,5 +1,8 @@
 extends Node2D
 
+@onready var player1: CharacterBody2D = $Player1
+@onready var player2: CharacterBody2D = $Player2
+
 #Health
 @onready var P1healthBar: ProgressBar = $"../CanvasLayer/P1HittedBar/P1HealthBar"
 var P1healthBarStyle = preload("res://Styles/P1HealthBar.tres");
@@ -17,6 +20,8 @@ var healthP2 : int;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	fillHealthBar(0, 200);
+	player2.isFlipped = true;
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

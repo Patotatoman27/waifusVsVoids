@@ -125,17 +125,15 @@ shape = SubResource("WorldBoundaryShape2D_464m7")
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("2_32nq4")
 
+[node name="Camera2D" type="Camera2D" parent="Players"]
+position = Vector2(960, 381)
+zoom = Vector2(0.8, 0.8)
+
 [node name="Player1" parent="Players" instance=ExtResource("2_h2cow")]
 isplayerOne = true
 
 [node name="Player2" parent="Players" instance=ExtResource("2_h2cow")]
 position = Vector2(1968, 249)
-scale = Vector2(-1, 1)
-flipLabelDebug = true
-
-[node name="Camera2D" type="Camera2D" parent="Players"]
-position = Vector2(960, 381)
-zoom = Vector2(0.8, 0.8)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

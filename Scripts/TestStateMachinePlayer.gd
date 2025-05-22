@@ -4,25 +4,28 @@ extends CharacterBody2D
 @export var isplayerOne : bool;
 var PX : String;
 
-#Referencias
+#Referencias //Players
 @onready var players = $"..";
 @onready var player1: CharacterBody2D = $"../Player1"
 @onready var player2: CharacterBody2D = $"../Player2"
-
+			#//Hit and Hurtboxes
 const ANIMFPS = 16;
-@onready var anim: AnimationPlayer = $AnimationPlayer
-@onready var hurtboxes: Area2D = $Hurtboxes
-@onready var hitboxes: Area2D = $Hitboxes
+@onready var anim: AnimationPlayer = $Visual/AnimationPlayer
+@onready var visual: Node2D = $Visual
+@onready var hurtboxes: Area2D = $Visual/Hurtboxes
+@onready var hitboxes: Area2D = $Visual/Hitboxes
 @onready var stateLabel: Label = $StateLabel
 @onready var frameLabel: Label = $FrameLabel
 
 #Atributos
-@export var flipLabelDebug : bool;
+@export var isFlipped : bool;
+const MAXHSPEED := 850;
+const ACCEL = 20
+const FRICTION = 15
 const GRAVITY := 2680*2;
 const JUMPVELOCITY := 1580*1.5;
 const ADDITIONALGRAVITY := 1250*2;
 const ACCELERATION := 5000;
-const MAXHSPEED := 850;
 const AIRHSPEED := 600;
 
 #Condiciones
@@ -42,13 +45,13 @@ var state : States;
 #Moveset
 enum Moveset {nulo, walkKick, jumpKick}
 var attack_info = {
-	Moveset.walkKick: AttackData.new(5, 14, 0.15),
-	Moveset.jumpKick: AttackData.new(30, 7, 0.5)
+	Moveset.walkKick: AttackData.new(5, 14, 0.15, 330, 0),
+	Moveset.jumpKick: AttackData.new(30, 7, 0.5, 500, 0)
 }
 var move : Moveset;
 
 
-# Called when the node enters the scene tree for the first time.
+#READY
 func _ready() -> void:
 	#Estado y condiciones iniciales
 	state = States.idle;
@@ -72,15 +75,9 @@ func _ready() -> void:
 		hurtboxes.collision_layer = 1 << 5
 		hitboxes.collision_mask = 1 << 3
 		hurtboxes.collision_mask = 1 << 2
-	
-	
-	#Labels de Debug
-	if flipLabelDebug:
-		stateLabel.scale *= Vector2(-1,1)
-		frameLabel.scale *= Vector2(-1,1)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+#PROCESS
 func _process(delta: float) -> void:
 	#Hit management
 	#State management
@@ -88,7 +85,9 @@ func _process(delta: float) -> void:
 		States.hitstun:
 			#print("en Hitstun: " + str(hitstunFrames));
 			frameLabel.text = str(int(floor(hitstunFrames)));
-			velocity.x = 0;
+			direction = 0;
+			if not is_on_floor():
+				velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
 			hitstunFrames -= ANIMFPS * delta;
 			anim.play("Idle");
 			if hitstunFrames <= 0:
@@ -154,8 +153,16 @@ func _process(delta: float) -> void:
 					move = Moveset.nulo;
 					state = States.idle;
 			JumpLogic(false);
-			
+
+	if abs(direction) > 0.01:
+		velocity.x = lerp(velocity.x, direction * MAXHSPEED, ACCEL * delta)
+	else:
+		velocity.x = lerp(velocity.x, 0.0, FRICTION * delta)
 	move_and_slide();
+	if isFlipped:
+		visual.scale.x = -1.0
+	else:
+		visual.scale.x = 1.0
 	
 	# Betatest
 	if state != States.hitstun:
@@ -208,29 +215,39 @@ func JumpLogic(isDouble: bool) -> void:
 		state = States.doublejump;
 		
 func DirectionDetection():
-	direction = Input.get_axis(PX + "_Left", PX + "_Right")
+	direction = Input.get_action_strength(PX + "_Right") - Input.get_action_strength(PX + "_Left")
 
 
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	if state != States.hitstun:
 		var attacker
-		var victim 
+		var victimID
+		var victim; 
 		if isplayerOne:
 			attacker = player2;
-			victim = 1;
+			victimID = 1;
+			victim = player1;
 		else:
 			attacker = player1;
-			victim = 2;
+			victimID = 2;
+			victim = player2;
 
 		var move = attacker.move;
 
 		print(Moveset.keys()[move])
 		if move != 0:
 			var data: AttackData = attack_info[move]
-			players.decreaseHealth(victim, data.damage)
+			players.decreaseHealth(victimID, data.damage)
+			var VictimDirection;
+			if victim.isFlipped:
+				VictimDirection = -1;
+			else:
+				VictimDirection = 1;
+			victim.velocity.x += VictimDirection * -data.knockbackH
 			hitstunFrames = data.hitstun
 			state = States.hitstun
 			Hitstop.hitStop(data.hitstop)
+			
 
 	#if state != States.hitstun:
 		#print("Golpe: ")
