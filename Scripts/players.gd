@@ -3,7 +3,7 @@ extends Node2D
 @onready var player1: CharacterBody2D = $Player1
 @onready var player2: CharacterBody2D = $Player2
 
-#Health
+#HealthBars
 @onready var P1healthBar: ProgressBar = $"../CanvasLayer/P1HittedBar/P1HealthBar"
 var P1healthBarStyle = preload("res://Styles/P1HealthBar.tres");
 @onready var P1hittedBar: ProgressBar = $"../CanvasLayer/P1HittedBar"
@@ -17,20 +17,12 @@ var P2healthBarStyle = preload("res://Styles/P2HealthBar.tres");
 var healthP1 : int;
 var healthP2 : int;
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	fillHealthBar(0, 300);
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if Input.is_key_pressed(KEY_B):
-		decreaseHealth(1, 1);
 
 func fillHealthBar(player : int, maxhealth : int):
 	match player:
 		1:
 			healthP1 = maxhealth;
+			P1healthBar.min_value = 0;
 			P1healthBar.max_value = maxhealth;
 			P1healthBar.value = maxhealth;
 			P1hittedBar.max_value = maxhealth;
@@ -41,9 +33,6 @@ func fillHealthBar(player : int, maxhealth : int):
 			P2healthBar.value = maxhealth;
 			P2hittedBar.max_value = maxhealth;
 			P2hittedBar.value = maxhealth;	
-		0:
-			fillHealthBar(1, maxhealth);
-			fillHealthBar(2, maxhealth);
 
 func decreaseHealth(player : int, amount : int):
 	match player:

@@ -11,7 +11,6 @@ var myChar;
 var otherChar;
 
 #Animacion Hit y Hurtboxes
-const ANIMFPS = 16;
 @onready var anim: AnimationPlayer = $Visual/AnimationPlayer
 @onready var visual: Node2D = $Visual
 @onready var hurtboxes: Area2D = $Visual/Hurtboxes
@@ -20,11 +19,13 @@ const ANIMFPS = 16;
 @onready var frameLabel: Label = $FrameLabel
 
 #Atributos Universales
+const ANIMFPS = 16;
 const AIRFLIPPEDDISTANCE := 100; #Pixeles despues de Vict.Pos.x para que se voltee en el aire.
 const QUEQUEJUMPFRAMES : int = 7;
 const QUEQUEDOUBLEJUMPFRAMES : int = 5;
 
 #Atributos
+const MAXHEALTH := 300;
 const MAXHSPEED := 850; #Movimiento Terrestre
 const ACCELERATION := 5000;
 const ACCEL = 20; #Friccion/Frenado
@@ -87,7 +88,10 @@ func _ready() -> void:
 		hurtboxes.collision_layer = 1 << 5
 		hitboxes.collision_mask = 1 << 3
 		hurtboxes.collision_mask = 1 << 2
-		
+	if myChar == player1:
+		await get_node("../Player2").ready;
+	else:
+		await get_node("../Player1").ready;
 
 
 #PROCESS
