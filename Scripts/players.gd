@@ -4,15 +4,15 @@ extends Node2D
 @onready var player2: CharacterBody2D = $Player2
 
 #HealthBars
-@onready var P1healthBar: ProgressBar = $"../CanvasLayer/P1HittedBar/P1HealthBar"
+@onready var P1healthBar: ProgressBar = $"../HUD/P1HittedBar/P1HealthBar"
 var P1healthBarStyle = preload("res://Styles/P1HealthBar.tres");
-@onready var P1hittedBar: ProgressBar = $"../CanvasLayer/P1HittedBar"
-@onready var P1hittedDelay: Timer = $"../CanvasLayer/P1HittedBar/P1HittedDelay"
+@onready var P1hittedBar: ProgressBar = $"../HUD/P1HittedBar"
+@onready var P1hittedDelay: Timer = $"../HUD/P1HittedBar/P1HittedDelay"
 
-@onready var P2healthBar: ProgressBar = $"../CanvasLayer/P2HittedBar/P2HealthBar"
+@onready var P2healthBar: ProgressBar = $"../HUD/P2HittedBar/P2HealthBar"
 var P2healthBarStyle = preload("res://Styles/P2HealthBar.tres");
-@onready var P2hittedBar: ProgressBar = $"../CanvasLayer/P2HittedBar"
-@onready var P2hittedDelay: Timer = $"../CanvasLayer/P2HittedBar/P2HittedDelay"
+@onready var P2hittedBar: ProgressBar = $"../HUD/P2HittedBar"
+@onready var P2hittedDelay: Timer = $"../HUD/P2HittedBar/P2HittedDelay"
 
 var healthP1 : int;
 var healthP2 : int;

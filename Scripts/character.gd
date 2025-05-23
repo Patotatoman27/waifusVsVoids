@@ -106,12 +106,17 @@ func applyMovement(delta):
 	stateLabel.text = str(States.keys()[state]);
 
 func stateHitstun(delta):
+	#Debug
 	frameLabel.text = str(int(floor(hitstunFrames)));
+	#Velocidad
 	direction = 0;
 	if not is_on_floor():
 		velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
-	hitstunFrames -= ANIMFPS * delta;
+	#Animación
 	anim.play("Idle");
+	#Logica
+	hitstunFrames -= ANIMFPS * delta;
+	#Other States
 	if hitstunFrames <= 0:
 		if is_on_floor():
 			state = States.idle;
@@ -157,12 +162,16 @@ func stateWalk(delta):
 	DashLogic(); #Dash
 
 func stateDashStart():
+	#Velocidad
 	velocity = Vector2(0,0);
+	#Animación
 	anim.play("Dash");
+	#Other States
 	DirectionDetection();
 	state = States.dash;
 
 func stateDash(delta):
+	#Mover condicionales a DashStart cuando hagamos Backdash
 	if direction < 0 or (direction == 0 and isFlipped):
 		velocity.x = -DASHSPEED;
 	elif direction > 0  or (direction == 0 and not isFlipped):
@@ -173,37 +182,52 @@ func stateDash(delta):
 		state = States.dashHold;
 
 func stateDashHold():
+	#Velocidad
 	velocity.x = 0;
 	velocity.y = 0;
+	#Logica
 	dashHoldFrames += 1;
+	#Other States
 	if dashHoldFrames >= DASHHOLDFRAMES:
-		DirectionDetection();
+		#Last Frame Animation
 		AirDirectionLogic();
+		#Last Frame Other States
+		DirectionDetection();
 		if is_on_floor():
 			state = States.idle;
 		else:
 			state = States.realfall;
 
 func stateJump(delta):
+	#Velocidad
 	velocity.y += (GRAVITY) * delta;
+	#Animación
 	anim.play("Jump");
+	AirDirectionLogic();
+	#Other States
 	if velocity.y > -600:
 		JumpLogic(true);
 	if velocity.y >= 0:
 		state = States.fall;
-	AirDirectionLogic();
 	DashLogic();
 
 func stateDoubleJump(delta):
+	#Velocidad
 	velocity.y += (GRAVITY) * delta;
+	#Animacion
 	anim.play("DoubleJump");
+	AirDirectionLogic();
+	#Other States
 	if velocity.y > 0:
 		state = States.realfall;
-	AirDirectionLogic();
 
 func stateFall(delta):
+	#Velocidad
 	velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+	#Animación
 	anim.play("Jump");
+	AirDirectionLogic();
+	#Other States
 	if is_on_floor():
 		DirectionDetection()
 		if direction != 0:
@@ -211,12 +235,15 @@ func stateFall(delta):
 		else:
 			state = States.idle;
 	JumpLogic(true);
-	AirDirectionLogic();
 	DashLogic();
 
 func stateRealFall(delta):
+	#Velocidad
 	velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+	#Animación
 	anim.play("Jump");
+	AirDirectionLogic();
+	#Other States
 	if is_on_floor():
 		DirectionDetection()
 		if direction != 0:
@@ -226,8 +253,9 @@ func stateRealFall(delta):
 			move = Moveset.nulo;
 			state = States.idle;
 	JumpLogic(false);
-	AirDirectionLogic();
 
+
+## FUNC LOGIC
 func JumpLogic(isDouble: bool) -> void:
 	if Input.is_action_pressed("P" + str(PlayerID) + "_Jump"):
 		if not isDouble:
@@ -275,7 +303,7 @@ func JumpLogic(isDouble: bool) -> void:
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	#if state != States.hitstun:
 		var hitMove = otherChar.move;
-		print(Moveset.keys()[hitMove]) #Que Movimiento impactó
+		#print(Moveset.keys()[hitMove]) #Que Movimiento impactó
 		if hitMove != 0:
 			var data: AttackData = attack_info[hitMove]
 			players.decreaseHealth(PlayerID, data.damage)
@@ -289,10 +317,10 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 			state = States.hitstun
 			Hitstop.hitStop(data.hitstop)
 
-func DirectionDetection():
+func DirectionDetection(): #Define DIRECCION
 	direction = Input.get_action_strength("P" + str(PlayerID) + "_Right") - Input.get_action_strength("P" + str(PlayerID) + "_Left")
 
-func AirDirectionLogic():
+func AirDirectionLogic(): #Define ISFLIPPED
 	if originalFlippedState:
 		isFlipped = (otherChar.position.x - AIRFLIPPEDDISTANCE) < myChar.position.x;
 	else:

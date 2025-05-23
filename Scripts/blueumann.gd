@@ -3,7 +3,7 @@ extends Character
 
 func _ready() -> void:
 	super._ready();
-	MAXHSPEED = 100;
+	MAXHSPEED = 300;
 
 func _physics_process(delta: float) -> void:
 #State management
