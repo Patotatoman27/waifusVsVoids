@@ -54,10 +54,10 @@ enum States {idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, d
 var state : States;
 
 #Moveset
-enum Moveset {nulo, walkKick, jumpKick}
+enum Moveset {nulo, testWalkKick, testJumpKick}
 var attack_info = {
-	Moveset.walkKick: AttackData.new(5, 3, 0.15, 330, 0),
-	Moveset.jumpKick: AttackData.new(30, 7, 0.5, 500, 0)
+	Moveset.testWalkKick: AttackData.new(5, 4, 0.15, 530, 0),
+	Moveset.testJumpKick: AttackData.new(30, 9, 0.5, 900, 0)
 }
 var move : Moveset;
 
@@ -92,7 +92,6 @@ func _ready() -> void:
 	else:
 		await get_node("../Player1").ready;
 
-
 func applyMovement(delta):
 	if abs(direction) > 0.01:
 		velocity.x = lerp(velocity.x, direction * MAXHSPEED, ACCEL * delta)
@@ -120,37 +119,42 @@ func stateHitstun(delta):
 			state = States.fall;
 
 func stateIdle():
-	DirectionDetection();
-	isFlipped = (otherChar.position.x < myChar.position.x);
+	#Velocidad
 	velocity.x = 0;
 	velocity.y = 0;
+	#Animacion
 	anim.play("Idle");
-	if not is_on_floor():
+	isFlipped = (otherChar.position.x < myChar.position.x);
+	#Other States
+	if not is_on_floor(): #Fall al caer
 		state = States.fall;
+	DirectionDetection(); #Caminar
 	if direction != 0:
 		state = States.walk;
-	FlippedOriginalStateDetection() #Solo en los que salen del suelo
+	FlippedOriginalStateDetection() #Salto
 	JumpLogic(false);
-	DashLogic();
+	DashLogic(); #Dasj
 
 func stateWalk(delta):
-	move = Moveset.walkKick
-	DirectionDetection();
-	isFlipped = (otherChar.position.x < myChar.position.x);
-	velocity.y = 0;
+	#Velocidad
 	velocity.x += direction * ACCELERATION * delta;
 	if abs(velocity.x) > MAXHSPEED:
 		velocity.x = sign(velocity.x) * MAXHSPEED;
-	anim.play("WalkKick");
-	if not is_on_floor():
+	velocity.y = 0;
+	#Animacion
+	anim.play("Walk");
+	isFlipped = (otherChar.position.x < myChar.position.x);
+	#Other States
+	if not is_on_floor(): #Fall al caer
 		move = Moveset.nulo;
 		state = States.fall;
+	DirectionDetection(); #Idle al detenerse
 	if direction == 0:
 		move = Moveset.nulo;
 		state = States.idle;
-	FlippedOriginalStateDetection();
+	FlippedOriginalStateDetection(); #Salto
 	JumpLogic(false);
-	DashLogic();
+	DashLogic(); #Dash
 
 func stateDashStart():
 	velocity = Vector2(0,0);
@@ -182,7 +186,7 @@ func stateDashHold():
 
 func stateJump(delta):
 	velocity.y += (GRAVITY) * delta;
-	anim.play("Walk");
+	anim.play("Jump");
 	if velocity.y > -600:
 		JumpLogic(true);
 	if velocity.y >= 0:
@@ -191,16 +195,15 @@ func stateJump(delta):
 	DashLogic();
 
 func stateDoubleJump(delta):
-	move = Moveset.jumpKick
 	velocity.y += (GRAVITY) * delta;
-	anim.play("WalkKick");
+	anim.play("DoubleJump");
 	if velocity.y > 0:
 		state = States.realfall;
 	AirDirectionLogic();
 
 func stateFall(delta):
 	velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
-	anim.play("Walk");
+	anim.play("Jump");
 	if is_on_floor():
 		DirectionDetection()
 		if direction != 0:
@@ -213,7 +216,7 @@ func stateFall(delta):
 
 func stateRealFall(delta):
 	velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
-	anim.play("Walk");
+	anim.play("Jump");
 	if is_on_floor():
 		DirectionDetection()
 		if direction != 0:

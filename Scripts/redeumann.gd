@@ -12,6 +12,7 @@ func _physics_process(delta: float) -> void:
 		States.idle:
 			stateIdle();
 		States.walk:
+			move = Moveset.testWalkKick
 			stateWalk(delta);
 		States.dashStart:
 			stateDashStart();

@@ -23,6 +23,7 @@ func _physics_process(delta: float) -> void:
 		States.jump:
 			stateJump(delta);
 		States.doublejump:
+			move = Moveset.testJumpKick
 			stateDoubleJump(delta);
 		States.fall:
 			stateFall(delta);
