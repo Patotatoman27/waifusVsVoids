@@ -9,7 +9,8 @@ extends CharacterBody2D
 @onready var player2: CharacterBody2D = $"../Player2"
 var myChar;
 var otherChar;
-			#//Hit and Hurtboxes
+
+#Animacion Hit y Hurtboxes
 const ANIMFPS = 16;
 @onready var anim: AnimationPlayer = $Visual/AnimationPlayer
 @onready var visual: Node2D = $Visual
@@ -18,31 +19,33 @@ const ANIMFPS = 16;
 @onready var stateLabel: Label = $StateLabel
 @onready var frameLabel: Label = $FrameLabel
 
+#Atributos Universales
+const AIRFLIPPEDDISTANCE := 100; #Pixeles despues de Vict.Pos.x para que se voltee en el aire.
+const QUEQUEJUMPFRAMES : int = 7;
+const QUEQUEDOUBLEJUMPFRAMES : int = 5;
+
 #Atributos
-@export var isFlipped : bool; #Bool. Si el Sprite está flipeado o no.
 const MAXHSPEED := 850; #Movimiento Terrestre
 const ACCELERATION := 5000;
-const ACCEL = 20 #Friccion/Frenado
-const FRICTION = 15
-const GRAVITY := 2680*2; #Caida
-const ADDITIONALGRAVITY := 1250*2;
-const JUMPVELOCITY := 1580*1.5;#Salto
-const AIRHSPEED := 600;#Horizontal Aereo
-const DASHHOLDFRAMES := 3;
-const DASHSPEED := 1500;
-const AIRFLIPPEDDISTANCE := 100; #Pixeles despues de Vict.Pos.x para que se voltee en el aire.
+const ACCEL = 20; #Friccion/Frenado
+const FRICTION = 15;
+const GRAVITY := 5360; #Caida
+const ADDITIONALGRAVITY := 2500;
+const JUMPVELOCITY := 2370; #Salto
+const AIRHSPEED := 600; #Horizontal Aereo
+const DASHHOLDFRAMES := 2;
+const DASHSPEED := 2500;
 
 #Condiciones
+@export var isFlipped : bool; #Bool. Si el Sprite está flipeado o no.
 var direction : float; #Input.X de jugador. Solo confirmado en X momentos
 var originalFlippedState : bool; #Estado de Flipped al dejar el suelo.
 var canJump : bool; #Salto
-var quequeJumpFrames : int;
-const QUEQUEJUMPFRAMES : int = 7;
+var quequeJumpFrames : int; #Cuantos frames lleva el Salto en Que
 var canDoubleJump : bool; #DobleSalto
-var quequeDoubleJumpFrames : int;
-const QUEQUEDOUBLEJUMPFRAMES : int = 5;
+var quequeDoubleJumpFrames : int; #Cuantos frames lleva el doble salto en Que
 var hitstunFrames : float; #Golpes
-var dashHoldFrames : int;
+var dashHoldFrames : int; #Cuantos frames lleva en el hold final del Dash
 
 #States
 enum States {idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
@@ -55,6 +58,7 @@ var attack_info = {
 	Moveset.jumpKick: AttackData.new(30, 7, 0.5, 500, 0)
 }
 var move : Moveset;
+
 
 
 #READY
@@ -139,12 +143,12 @@ func _process(delta: float) -> void:
 			DirectionDetection();
 			state = States.dash;
 		States.dash:
-			if direction < 0:
+			if direction < 0 or (direction == 0 and isFlipped):
 				velocity.x = -DASHSPEED;
-			else:
+			elif direction > 0  or (direction == 0 and not isFlipped):
 				velocity.x = DASHSPEED;
 			velocity.y = 0;
-			if int(anim.current_animation_position * ANIMFPS) >= 7:
+			if int(anim.current_animation_position * ANIMFPS) >= 6:
 				dashHoldFrames = 0;
 				state = States.dashHold;
 		States.dashHold:
