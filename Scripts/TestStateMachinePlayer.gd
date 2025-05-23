@@ -1,8 +1,7 @@
 extends CharacterBody2D
 
 #Jugador
-@export var isplayerOne : bool; 
-var PX : String;
+@export var PlayerID : int; #ID del Jugador
 
 #Referencias //Players
 @onready var players = $"..";
@@ -68,8 +67,7 @@ func _ready() -> void:
 	direction = 0;
 	
 	#Jugador actual
-	if isplayerOne:
-		PX = "P1";
+	if PlayerID == 1:
 		myChar = player1;
 		otherChar = player2;
 		#Collision Layers de Hitbox/Hurtbox:
@@ -78,7 +76,6 @@ func _ready() -> void:
 		hitboxes.collision_mask = 1 << 5
 		hurtboxes.collision_mask = 1 << 4
 	else:
-		PX = "P2";
 		myChar = player2;
 		otherChar = player1;
 		#Collision Layers de Hitbox/Hurtbox:
@@ -217,12 +214,12 @@ func _process(delta: float) -> void:
 	stateLabel.text = str(States.keys()[state]);
 
 func JumpLogic(isDouble: bool) -> void:
-	if Input.is_action_pressed(PX + "_Jump"):
+	if Input.is_action_pressed("P" + str(PlayerID) + "_Jump"):
 		if not isDouble:
 			quequeJumpFrames = QUEQUEJUMPFRAMES;
 			canJump = true;
 		else:
-			if Input.is_action_just_pressed(PX + "_Jump"):
+			if Input.is_action_just_pressed("P" + str(PlayerID) + "_Jump"):
 				quequeDoubleJumpFrames = QUEQUEDOUBLEJUMPFRAMES;
 				canDoubleJump = true;
 	else:
@@ -262,17 +259,11 @@ func JumpLogic(isDouble: bool) -> void:
 
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	#if state != States.hitstun:
-		var victimID;
-		if isplayerOne:
-			victimID = 1;
-		else:
-			victimID = 2;
-
 		var hitMove = otherChar.move;
 		print(Moveset.keys()[hitMove]) #Que Movimiento impactó
 		if hitMove != 0:
 			var data: AttackData = attack_info[hitMove]
-			players.decreaseHealth(victimID, data.damage)
+			players.decreaseHealth(PlayerID, data.damage)
 			var VictimDirection;
 			if myChar.isFlipped:
 				VictimDirection = -1;
@@ -285,7 +276,7 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 
 
 func DirectionDetection():
-	direction = Input.get_action_strength(PX + "_Right") - Input.get_action_strength(PX + "_Left")
+	direction = Input.get_action_strength("P" + str(PlayerID) + "_Right") - Input.get_action_strength("P" + str(PlayerID) + "_Left")
 
 func AirDirectionLogic():
 	if originalFlippedState:
@@ -297,5 +288,5 @@ func FlippedOriginalStateDetection():
 	originalFlippedState = isFlipped;
 
 func DashLogic():
-	if Input.is_action_just_pressed(PX + "_Dash"):
+	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Dash"):
 		state = States.dashStart;

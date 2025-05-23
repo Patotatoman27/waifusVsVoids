@@ -135,7 +135,7 @@ tracks/2/path = NodePath("Visual/Hurtboxes/HurtBox1:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25, 0.377306),
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [Vector2(130.661, 126.875), Vector2(131, 126.938), Vector2(111, 115.875), Vector2(127.5, 116.937)]
@@ -147,7 +147,7 @@ tracks/3/path = NodePath("Visual/Hurtboxes/HurtBox1:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25, 0.377306),
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [Vector2(112, -270), Vector2(117, -277), Vector2(102, -259), Vector2(48, -277)]
@@ -159,7 +159,7 @@ tracks/4/path = NodePath("Visual/Hurtboxes/HurtBox2:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.377306),
+"times": PackedFloat32Array(0, 0.25, 0.375),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [Vector2(138, 260.5), Vector2(142, 253.25), Vector2(173, 253.25)]
@@ -171,7 +171,7 @@ tracks/5/path = NodePath("Visual/Hurtboxes/HurtBox2:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.377306),
+"times": PackedFloat32Array(0, 0.25, 0.375),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [Vector2(66, -117.25), Vector2(51, -115.375), Vector2(15.5, -115)]

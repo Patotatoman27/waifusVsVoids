@@ -17,7 +17,7 @@ func SetCharacters():
 		nodoPadre.add_child(instanciaP1)
 		instanciaP1.name = "Player1";
 		player1 = $"../Players/Player1"
-		player1.isplayerOne = true;
+		player1.PlayerID = 1;
 	else:
 		print("No se encontró el nodo ../Players para P1")
 
@@ -28,5 +28,6 @@ func SetCharacters():
 		nodoPadre.add_child(instanciaP2)
 		instanciaP2.name = "Player2";
 		player2 = $"../Players/Player2"
+		player2.PlayerID = 2;
 	else:
 		print("No se encontró el nodo ../Players para P2")
