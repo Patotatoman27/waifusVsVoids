@@ -5,7 +5,7 @@ extends Node
 @onready var players: Node2D = $"../Players"
 
 func _ready():
-	SetCharacters("Neumann", "Neumann");
+	SetCharacters("Blueumann", "Redeumann");
 
 func SetCharacters(char1 : String, char2 : String):
 	var nodoPadre = get_node("../Players")
