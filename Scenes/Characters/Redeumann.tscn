@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3 uid="uid://durmcbatt516k"]
 
-[ext_resource type="Script" uid="uid://di2awgggs0nqt" path="res://Scripts/redeumann.gd" id="1_grhig"]
+[ext_resource type="Script" uid="uid://di2awgggs0nqt" path="res://Scripts/characters/redeumann.gd" id="1_grhig"]
 [ext_resource type="Shader" uid="uid://ctnyy3ghangly" path="res://Shaders/Redeumann.gdshader" id="1_w54u4"]
 [ext_resource type="Texture2D" uid="uid://ccqq1ifusghhe" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_01.png" id="2_grhig"]
 [ext_resource type="Texture2D" uid="uid://bunq3yfwdvp8c" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_03.png" id="3_gfooi"]
