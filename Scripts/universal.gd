@@ -6,8 +6,8 @@ extends Node
 @onready var roundScreen: AnimatedSprite2D = $"../HUD/Node2D/RoundScreen"
 @onready var fightAnimation: AnimationPlayer = $"../HUD/Node2D/AnimationPlayer"
 
-var char1 : String = "Neumann";
-var char2 : String = "Neumann";
+var char1 : String = "Greumann";
+var char2 : String = "Yeumann";
 
 func _ready():
 	SetCharacters(char1, char2);
@@ -54,8 +54,8 @@ func SetCharacters(char1 : String, char2 : String):
 
 func GeneratePlayers():
 	var nodoPadre = get_node("../Players")
-	var escenaP1 = load("res://Scenes/" + char1 + ".tscn");
-	var escenaP2 = load("res://Scenes/" + char2 + ".tscn");
+	var escenaP1 = load("res://Scenes/Characters/" + char1 + ".tscn");
+	var escenaP2 = load("res://Scenes/Characters/" + char2 + ".tscn");
 	
 	#PLAYER1
 	var instanciaP1 = escenaP1.instantiate()

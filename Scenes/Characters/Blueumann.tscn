@@ -1,25 +1,25 @@
 [gd_scene load_steps=38 format=3 uid="uid://fk8uipkekdfr"]
 
-[ext_resource type="Script" uid="uid://dlk1o6pnj42da" path="res://Scripts/blueumann.gd" id="1_5xiee"]
-[ext_resource type="Texture2D" uid="uid://ccqq1ifusghhe" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_01.png" id="3_msm7s"]
-[ext_resource type="Texture2D" uid="uid://bunq3yfwdvp8c" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_03.png" id="4_efjgi"]
-[ext_resource type="Texture2D" uid="uid://bjxdrhedf3oby" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_05.png" id="5_2kuef"]
-[ext_resource type="Texture2D" uid="uid://b8woxcikcfalf" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_07.png" id="6_uiqs3"]
-[ext_resource type="Texture2D" uid="uid://bcgboytfl463e" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_001.png" id="7_ogtah"]
-[ext_resource type="Texture2D" uid="uid://4somqqy6qiow" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_003.png" id="8_2qx1d"]
-[ext_resource type="Texture2D" uid="uid://dau73ss1sb1yf" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_005.png" id="9_k2sdv"]
-[ext_resource type="Texture2D" uid="uid://bo73o5cq0e0ol" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_007.png" id="10_pmm01"]
-[ext_resource type="Texture2D" uid="uid://cn21gcepteakv" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_009.png" id="11_13qtm"]
-[ext_resource type="Texture2D" uid="uid://boxeahdsdvq7s" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_011.png" id="12_5k452"]
-[ext_resource type="Texture2D" uid="uid://chjudsqt2f4i" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_013.png" id="13_jypj4"]
-[ext_resource type="Texture2D" uid="uid://bf3s3kvm7xyx5" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_015.png" id="14_o4jkc"]
-[ext_resource type="Texture2D" uid="uid://bekuhs8j4y7kc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_001.png" id="15_xu7i7"]
-[ext_resource type="Texture2D" uid="uid://ch8f2ke2odc83" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_003.png" id="16_4udlc"]
-[ext_resource type="Texture2D" uid="uid://bjtjyysxd6wfc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_005.png" id="17_2xhvc"]
-[ext_resource type="Texture2D" uid="uid://ce7qwtcimnpp4" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_007.png" id="18_p4ino"]
-[ext_resource type="Texture2D" uid="uid://bpb5e0rqe6mv7" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_009.png" id="19_s6alh"]
-[ext_resource type="Texture2D" uid="uid://dthw3hpeod17t" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_011.png" id="20_cq3jg"]
-[ext_resource type="Texture2D" uid="uid://2pvkt0rpa1ya" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_013.png" id="21_ipjw4"]
+[ext_resource type="Script" uid="uid://dlk1o6pnj42da" path="res://Scripts/blueumann.gd" id="1_ygtft"]
+[ext_resource type="Texture2D" uid="uid://ccqq1ifusghhe" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_01.png" id="2_k2ck3"]
+[ext_resource type="Texture2D" uid="uid://bunq3yfwdvp8c" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_03.png" id="3_0a3co"]
+[ext_resource type="Texture2D" uid="uid://bjxdrhedf3oby" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_05.png" id="4_8ftyr"]
+[ext_resource type="Texture2D" uid="uid://b8woxcikcfalf" path="res://Sprites/EmptyAlfa/Neumann/NeumannDash/Neumann_07.png" id="5_f4xw6"]
+[ext_resource type="Texture2D" uid="uid://bcgboytfl463e" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_001.png" id="6_b8v25"]
+[ext_resource type="Texture2D" uid="uid://4somqqy6qiow" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_003.png" id="7_smgae"]
+[ext_resource type="Texture2D" uid="uid://dau73ss1sb1yf" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_005.png" id="8_6ufff"]
+[ext_resource type="Texture2D" uid="uid://bo73o5cq0e0ol" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_007.png" id="9_ye6ej"]
+[ext_resource type="Texture2D" uid="uid://cn21gcepteakv" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_009.png" id="10_yw2w8"]
+[ext_resource type="Texture2D" uid="uid://boxeahdsdvq7s" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_011.png" id="11_t5u15"]
+[ext_resource type="Texture2D" uid="uid://chjudsqt2f4i" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_013.png" id="12_7e7y7"]
+[ext_resource type="Texture2D" uid="uid://bf3s3kvm7xyx5" path="res://Sprites/EmptyAlfa/Neumann/NeumannIdle/Neumann_015.png" id="13_7dw1d"]
+[ext_resource type="Texture2D" uid="uid://bekuhs8j4y7kc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_001.png" id="14_6n2dv"]
+[ext_resource type="Texture2D" uid="uid://ch8f2ke2odc83" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_003.png" id="15_n4jbh"]
+[ext_resource type="Texture2D" uid="uid://bjtjyysxd6wfc" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_005.png" id="16_r1gek"]
+[ext_resource type="Texture2D" uid="uid://ce7qwtcimnpp4" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_007.png" id="17_m6egg"]
+[ext_resource type="Texture2D" uid="uid://bpb5e0rqe6mv7" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_009.png" id="18_c3u6a"]
+[ext_resource type="Texture2D" uid="uid://dthw3hpeod17t" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_011.png" id="19_4n0j7"]
+[ext_resource type="Texture2D" uid="uid://2pvkt0rpa1ya" path="res://Sprites/EmptyAlfa/Neumann/NeumannWalk/Neumann_013.png" id="20_345ff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_82c7i"]
 size = Vector2(173, 502)
@@ -44,16 +44,16 @@ shader = SubResource("Shader_5xiee")
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_msm7s")
+"texture": ExtResource("2_k2ck3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_efjgi")
+"texture": ExtResource("3_0a3co")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_2kuef")
+"texture": ExtResource("4_8ftyr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_uiqs3")
+"texture": ExtResource("5_f4xw6")
 }],
 "loop": true,
 "name": &"dash",
@@ -61,28 +61,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("7_ogtah")
+"texture": ExtResource("6_b8v25")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_2qx1d")
+"texture": ExtResource("7_smgae")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_k2sdv")
+"texture": ExtResource("8_6ufff")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_pmm01")
+"texture": ExtResource("9_ye6ej")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_13qtm")
+"texture": ExtResource("10_yw2w8")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_5k452")
+"texture": ExtResource("11_t5u15")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_jypj4")
+"texture": ExtResource("12_7e7y7")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_o4jkc")
+"texture": ExtResource("13_7dw1d")
 }],
 "loop": true,
 "name": &"idle",
@@ -90,25 +90,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("15_xu7i7")
+"texture": ExtResource("14_6n2dv")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_4udlc")
+"texture": ExtResource("15_n4jbh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_2xhvc")
+"texture": ExtResource("16_r1gek")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_p4ino")
+"texture": ExtResource("17_m6egg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("19_s6alh")
+"texture": ExtResource("18_c3u6a")
 }, {
 "duration": 1.0,
-"texture": ExtResource("20_cq3jg")
+"texture": ExtResource("19_4n0j7")
 }, {
 "duration": 1.0,
-"texture": ExtResource("21_ipjw4")
+"texture": ExtResource("20_345ff")
 }],
 "loop": true,
 "name": &"walk",
@@ -1190,7 +1190,7 @@ size = Vector2(171, 193)
 
 [node name="Redeumann" type="CharacterBody2D"]
 collision_layer = 2
-script = ExtResource("1_5xiee")
+script = ExtResource("1_ygtft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 20)

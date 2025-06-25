@@ -56,8 +56,9 @@ var state : States;
 #Moveset
 enum Moveset {nulo, walkKick, jumpKick}
 var attack_info = {
+	#Damage, Hitstun, Hitstop, KnockbackX, KnockbackY
 	Moveset.walkKick: AttackData.new(5, 3, 0.15, 330, 0),
-	Moveset.jumpKick: AttackData.new(30, 7, 0.5, 500, 0)
+	Moveset.jumpKick: AttackData.new(30, 7, 0.4, 500, 0)
 }
 var move : Moveset;
 

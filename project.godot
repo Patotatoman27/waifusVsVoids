@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Hitstop="*res://Scripts/hitstop.gd"
 MainTestFight="*res://Scripts/mainTestFight.gd"
+Music="*res://Scenes/music.tscn"
 
 [display]
 

@@ -12,6 +12,7 @@ func startFight():
 	round = 1;
 	victoriesP1 = 0;
 	victoriesP2 = 0;
+	Music.play("MainTheme");
 
 func winFight(playerID : int):
 	round += 1;
