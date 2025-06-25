@@ -11,14 +11,13 @@ config_version=5
 [application]
 
 config/name="Waifus Vs Voids"
-run/main_scene="uid://cqe2ttqny5guu"
+run/main_scene="uid://8okww8eojrjx"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Hitstop="*res://Scripts/hitstop.gd"
-MainTestFight="*res://Scripts/mainTestFight.gd"
 Music="*res://Scenes/music.tscn"
 
 [display]

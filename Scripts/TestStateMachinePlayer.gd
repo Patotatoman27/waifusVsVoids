@@ -5,8 +5,8 @@ extends CharacterBody2D
 
 #Referencias //Players
 @onready var players = $"..";
-@onready var player1: CharacterBody2D = $"../Player1"
-@onready var player2: CharacterBody2D = $"../Player2"
+@onready var player1: CharacterBody2D
+@onready var player2: CharacterBody2D
 var myChar;
 var otherChar; #Siempre comprobar su existencia
 
@@ -329,6 +329,8 @@ func killMyself(): #alch no recuerdo si esto se usa o no, pero aca lo dejo
 	call_deferred("free")
 
 func canFinallyMove():
+	player1 = $"../Player1"
+	player2 = $"../Player2"
 	canMove = true;
 	
 func cantMove():

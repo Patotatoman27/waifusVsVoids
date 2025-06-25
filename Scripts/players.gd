@@ -1,8 +1,7 @@
 extends Node2D
 
 @onready var universal: Node = $"../Universal"
-@onready var player1: CharacterBody2D = $Player1
-@onready var player2: CharacterBody2D = $Player2
+@onready var MainTestFight;
 
 #HealthBars
 @onready var P1healthBar: ProgressBar = $"../HUD/P1HittedBar/P1HealthBar"
@@ -15,8 +14,12 @@ var P2healthBarStyle = preload("res://Styles/P2HealthBar.tres");
 @onready var P2hittedBar: ProgressBar = $"../HUD/P2HittedBar"
 @onready var P2hittedDelay: Timer = $"../HUD/P2HittedBar/P2HittedDelay"
 
+
 var healthP1 : int;
 var healthP2 : int;
+
+func _ready() -> void:
+	MainTestFight = get_parent().get_parent();
 
 
 func fillHealthBar(player : int, maxhealth : int):
@@ -36,6 +39,8 @@ func fillHealthBar(player : int, maxhealth : int):
 			P2hittedBar.value = maxhealth;	
 
 func decreaseHealth(player : int, amount : int):
+	var player1: CharacterBody2D = $Player1
+	var player2: CharacterBody2D = $Player2
 	match player:
 		1:
 			P1healthBar.value -= amount;
@@ -66,13 +71,14 @@ func _on_p_2_hitted_delay_timeout() -> void:
 	correctHittedBar(2, 1);
 
 func correctHittedBar(player : int, amount : int):
-	await get_tree().create_timer(0.01).timeout;
-	match player:
-		1:
-			P1hittedBar.value -= amount;
-			if P1healthBar.value <= P1hittedBar.value:
-				correctHittedBar(1, amount);
-		2:
-			P2hittedBar.value -= amount;
-			if P2healthBar.value <= P2hittedBar.value:
-				correctHittedBar(2, amount);
+	if get_tree() != null:
+		await get_tree().create_timer(0.01).timeout
+		match player:
+			1:
+				P1hittedBar.value -= amount;
+				if P1healthBar.value <= P1hittedBar.value:
+					correctHittedBar(1, amount);
+			2:
+				P2hittedBar.value -= amount;
+				if P2healthBar.value <= P2hittedBar.value:
+					correctHittedBar(2, amount);

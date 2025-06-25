@@ -6,8 +6,8 @@ extends CharacterBody2D
 
 #Referencias //Players
 @onready var players = $"..";
-@onready var player1: CharacterBody2D = $"../Player1"
-@onready var player2: CharacterBody2D = $"../Player2"
+@onready var player1: CharacterBody2D
+@onready var player2: CharacterBody2D
 var myChar;
 var otherChar;
 
@@ -48,9 +48,10 @@ var canDoubleJump : bool; #DobleSalto
 var quequeDoubleJumpFrames : int; #Cuantos frames lleva el doble salto en Que
 var hitstunFrames : float; #Golpes
 var dashHoldFrames : int; #Cuantos frames lleva en el hold final del Dash
+var canMove : bool;
 
 #States
-enum States {idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
+enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
 var state : States;
 
 #Moveset
@@ -64,13 +65,15 @@ var move : Moveset;
 #READY
 func _ready() -> void:
 	#Estado y condiciones iniciales
-	state = States.idle;
+	state = States.cantMove;
 	move = Moveset.nulo;
 	canDoubleJump = false;
 	canJump = true;
+	canMove = false;
 	direction = 0;
 	
 	#Jugador actual
+	print(PlayerID);
 	if PlayerID == 1:
 		myChar = player1;
 		otherChar = player2;
@@ -79,6 +82,9 @@ func _ready() -> void:
 		hurtboxes.collision_layer = 1 << 3
 		hitboxes.collision_mask = 1 << 5
 		hurtboxes.collision_mask = 1 << 4
+		isFlipped = false;
+		visual.scale.x = 1.0 - 2.0 * int(isFlipped)
+		
 	else:
 		myChar = player2;
 		otherChar = player1;
@@ -87,10 +93,8 @@ func _ready() -> void:
 		hurtboxes.collision_layer = 1 << 5
 		hitboxes.collision_mask = 1 << 3
 		hurtboxes.collision_mask = 1 << 2
-	if myChar == player1:
-		await get_node("../Player2").ready;
-	else:
-		await get_node("../Player1").ready;
+		isFlipped = true;
+		visual.scale.x = 1.0 - 2.0 * int(isFlipped)
 
 func applyMovement(delta):
 	if abs(direction) > 0.01:
@@ -104,6 +108,30 @@ func applyMovement(delta):
 		frameLabel.text = str(int(anim.current_animation_position * ANIMFPS))
 	#frameLabel.text = str(velocity.y)
 	stateLabel.text = str(States.keys()[state]);
+
+func stateCantMove():
+	#Velocidad
+	velocity.x = 0;
+	velocity.y = 0;
+	#Animacion
+	anim.play("Idle");
+	#Other States
+	if not is_on_floor(): #Fall al caer
+		state = States.cantMoveFell;
+	if canMove:
+		state = States.idle;
+
+func stateCantMoveFell():
+	#Velocidad
+	velocity.y += (GRAVITY + ADDITIONALGRAVITY);
+	#Animacion
+	anim.play("Walk");
+	#Other States
+	if not is_on_floor(): #Fall al caer
+		state = States.cantMove;
+	if canMove:
+		state = States.fall;
+
 
 func stateHitstun(delta):
 	#Debug
@@ -332,3 +360,21 @@ func FlippedOriginalStateDetection():
 func DashLogic():
 	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Dash"):
 		state = States.dashStart;
+
+func killMyself(): #alch no recuerdo si esto se usa o no, pero aca lo dejo
+	call_deferred("free")
+
+func canFinallyMove():
+	player1 = $"../Player1"
+	player2 = $"../Player2"
+	if PlayerID == 1:
+		myChar = player1;
+		otherChar = player2;
+	else:
+		myChar = player2;
+		otherChar = player1;
+	canMove = true;
+	
+func cantMove():
+	canMove = false;
+	state = States.cantMove

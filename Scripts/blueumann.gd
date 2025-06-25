@@ -1,6 +1,5 @@
 extends Character
 
-
 func _ready() -> void:
 	super._ready();
 	MAXHSPEED = 300;
@@ -8,6 +7,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 #State management
 	match state:
+		States.cantMove:
+			stateCantMove();
+		States.cantMoveFell:
+			stateCantMoveFell();
 		States.hitstun:
 			stateHitstun(delta);
 		States.idle:

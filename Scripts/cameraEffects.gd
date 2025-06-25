@@ -3,8 +3,8 @@ extends Node
 var rng = RandomNumberGenerator.new()
 
 func shake(amount : float, randomStrenght : float, fadeout : float):
-	var randomStrngth : int = randomStrenght;
-	var fadeOut : int = fadeout;
+	var randomStrngth : float = randomStrenght;
+	var fadeOut : float = fadeout;
 	var shakeStrngth = randomStrngth;
 	_shakeEffect(randomStrngth, fadeOut, shakeStrngth);
 
