@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://denv6tkricqw4"]
+
+[node name="Victory" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 570.0
+offset_top = 406.0
+offset_right = 1396.0
+offset_bottom = 581.0
+theme_override_font_sizes/font_size = 100
+text = "Victoria para alguien xd"

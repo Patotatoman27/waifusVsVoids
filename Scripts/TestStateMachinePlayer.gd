@@ -329,3 +329,7 @@ func killMyself(): #alch no recuerdo si esto se usa o no, pero aca lo dejo
 
 func canFinallyMove():
 	canMove = true;
+	
+func cantMove():
+	canMove = false;
+	state = States.cantMove

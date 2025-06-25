@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var universal: Node = $"../Universal"
 @onready var player1: CharacterBody2D = $Player1
 @onready var player2: CharacterBody2D = $Player2
 
@@ -39,13 +40,24 @@ func decreaseHealth(player : int, amount : int):
 		1:
 			P1healthBar.value -= amount;
 			P1healthBarStyle.bg_color.r = 0.5 + (healthP1 / 200.0)
+			if P1healthBar.value <= 0:
+				MainTestFight.winFight(1); #Añade puntos
+				player1.cantMove();
+				player2.cantMove();
+				universal.nextRound();
 			P1hittedDelay.stop();
 			P1hittedDelay.start();
 		2:
 			P2healthBar.value -= amount;
 			P2healthBarStyle.bg_color.r = 0.5 + (healthP2 / 200.0)
-			P2hittedDelay.stop();
-			P2hittedDelay.start();
+			if P2healthBar.value <= 0:
+				MainTestFight.winFight(2);
+				player1.cantMove();
+				player2.cantMove();
+				universal.nextRound();
+			else:
+				P2hittedDelay.stop();
+				P2hittedDelay.start();
 
 func _on_p_1_hitted_delay_timeout() -> void:
 	correctHittedBar(1, 1);

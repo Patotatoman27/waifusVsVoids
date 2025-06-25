@@ -11,7 +11,7 @@ var char2 : String = "Neumann";
 
 func _ready():
 	SetCharacters(char1, char2);
-	roundScreen.play("1");
+	roundScreen.play(str(MainTestFight.round));
 	await get_tree().create_timer(1.0).timeout;
 	fightAnimation.play("RoundX");
 
@@ -27,6 +27,12 @@ func startMatch():
 	for hijo in hijos:
 		if is_instance_valid(hijo):
 			hijo.canFinallyMove();
+
+func nextRound():
+	if MainTestFight.victoriesP1 == 2 or MainTestFight.victoriesP2 == 2:
+		get_tree().change_scene_to_file("res://Scenes/victory.tscn")
+	else:
+		get_tree().reload_current_scene();
 
 func SetCharacters(char1 : String, char2 : String):
 	var nodoPadre = get_node("../Players")
