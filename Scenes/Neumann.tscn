@@ -309,10 +309,10 @@ tracks/2/path = NodePath("Visual/Hurtboxes/HurtBox1:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(130.661, 126.875), Vector2(147, 144.875), Vector2(160, 157.875), Vector2(163, 170.875), Vector2(149, 140.875)]
+"values": [Vector2(140.661, 149.875)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -321,10 +321,10 @@ tracks/3/path = NodePath("Visual/Hurtboxes/HurtBox1:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(49.6697, -279.563), Vector2(41.5, -288.563), Vector2(48, -295.063), Vector2(49.5, -301.563), Vector2(42.5, -286.563)]
+"values": [Vector2(51.6696, -279.063)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -333,10 +333,10 @@ tracks/4/path = NodePath("Visual/Hurtboxes/HurtBox2:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.375, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(185, 279), Vector2(197, 293), Vector2(198, 304), Vector2(190, 283)]
+"values": [Vector2(151, 279)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -345,10 +345,10 @@ tracks/5/path = NodePath("Visual/Hurtboxes/HurtBox2:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.375, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(4.5, -104.5), Vector2(10.5, -111.5), Vector2(11, -117), Vector2(7, -106.5)]
+"values": [Vector2(7.5, -104.5)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -360,7 +360,7 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(241, 260)]
+"values": [Vector2(226, 260)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -372,7 +372,7 @@ tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(2.5, 154)]
+"values": [Vector2(1, 154)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false

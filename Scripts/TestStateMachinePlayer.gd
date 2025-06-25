@@ -8,7 +8,7 @@ extends CharacterBody2D
 @onready var player1: CharacterBody2D = $"../Player1"
 @onready var player2: CharacterBody2D = $"../Player2"
 var myChar;
-var otherChar;
+var otherChar; #Siempre comprobar su existencia
 
 #Animacion Hit y Hurtboxes
 @onready var anim: AnimationPlayer = $Visual/AnimationPlayer
@@ -47,9 +47,10 @@ var canDoubleJump : bool; #DobleSalto
 var quequeDoubleJumpFrames : int; #Cuantos frames lleva el doble salto en Que
 var hitstunFrames : float; #Golpes
 var dashHoldFrames : int; #Cuantos frames lleva en el hold final del Dash
+var canMove : bool; #Si puede salir o no de idle
 
 #States
-enum States {idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
+enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
 var state : States;
 
 #Moveset
@@ -65,10 +66,11 @@ var move : Moveset;
 #READY
 func _ready() -> void:
 	#Estado y condiciones iniciales
-	state = States.idle;
+	state = States.cantMove;
 	move = Moveset.nulo;
 	canDoubleJump = false;
 	canJump = true;
+	canMove = false;
 	direction = 0;
 	
 	#Jugador actual
@@ -80,6 +82,7 @@ func _ready() -> void:
 		hurtboxes.collision_layer = 1 << 3
 		hitboxes.collision_mask = 1 << 5
 		hurtboxes.collision_mask = 1 << 4
+		isFlipped = false;
 	else:
 		myChar = player2;
 		otherChar = player1;
@@ -88,16 +91,32 @@ func _ready() -> void:
 		hurtboxes.collision_layer = 1 << 5
 		hitboxes.collision_mask = 1 << 3
 		hurtboxes.collision_mask = 1 << 2
+		isFlipped = true;
 	if myChar == player1:
-		await get_node("../Player2").ready;
+		if get_node_or_null("../Player2") and get_node("../Player2").is_inside_tree():
+			await get_node("../Player2").ready
 	else:
-		await get_node("../Player1").ready;
+		if get_node_or_null("../Player1") and get_node("../Player1").is_inside_tree():
+			await get_node("../Player1").ready;
 
 
 #PROCESS
 func _process(delta: float) -> void:
 	#State management
 	match state:
+		States.cantMove:
+			anim.play("Idle");
+			if not is_on_floor():
+				state = States.cantMoveFell;
+			if canMove == true:
+				state = States.idle;
+		States.cantMoveFell:
+			velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+			anim.play("Walk");
+			if is_on_floor():
+				state = States.cantMove;
+			if canMove == true:
+				state = States.fall;
 		States.hitstun:
 			frameLabel.text = str(int(floor(hitstunFrames)));
 			direction = 0;
@@ -112,7 +131,8 @@ func _process(delta: float) -> void:
 					state = States.fall;
 		States.idle:
 			DirectionDetection();
-			isFlipped = (otherChar.position.x < myChar.position.x);
+			if otherChar != null and is_instance_valid(otherChar) and otherChar.is_inside_tree():
+				isFlipped = (otherChar.position.x < myChar.position.x)
 			velocity.x = 0;
 			velocity.y = 0;
 			anim.play("Idle");
@@ -126,7 +146,8 @@ func _process(delta: float) -> void:
 		States.walk:
 			move = Moveset.walkKick
 			DirectionDetection();
-			isFlipped = (otherChar.position.x < myChar.position.x);
+			if is_instance_valid(otherChar):
+				isFlipped = (otherChar.position.x < myChar.position.x);
 			velocity.y = 0;
 			velocity.x += direction * ACCELERATION * delta;
 			if abs(velocity.x) > MAXHSPEED:
@@ -267,7 +288,10 @@ func JumpLogic(isDouble: bool) -> void:
 
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	#if state != States.hitstun:
-		var hitMove = otherChar.move;
+		var hitMove
+		if is_instance_valid(otherChar):
+			hitMove = otherChar.move;
+		var hitStun = 50 + int(floor(20.5));
 		print(Moveset.keys()[hitMove]) #Que Movimiento impactó
 		if hitMove != 0:
 			var data: AttackData = attack_info[hitMove]
@@ -287,10 +311,11 @@ func DirectionDetection():
 	direction = Input.get_action_strength("P" + str(PlayerID) + "_Right") - Input.get_action_strength("P" + str(PlayerID) + "_Left")
 
 func AirDirectionLogic():
-	if originalFlippedState:
-		isFlipped = (otherChar.position.x - AIRFLIPPEDDISTANCE) < myChar.position.x;
-	else:
-		isFlipped = (otherChar.position.x + AIRFLIPPEDDISTANCE) < myChar.position.x;
+	if is_instance_valid(otherChar):
+		if originalFlippedState:
+			isFlipped = (otherChar.position.x - AIRFLIPPEDDISTANCE) < myChar.position.x;
+		else:
+			isFlipped = (otherChar.position.x + AIRFLIPPEDDISTANCE) < myChar.position.x;
 
 func FlippedOriginalStateDetection():
 	originalFlippedState = isFlipped;
@@ -298,3 +323,9 @@ func FlippedOriginalStateDetection():
 func DashLogic():
 	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Dash"):
 		state = States.dashStart;
+
+func killMyself(): #alch no recuerdo si esto se usa o no, pero aca lo dejo
+	call_deferred("free")
+
+func canFinallyMove():
+	canMove = true;

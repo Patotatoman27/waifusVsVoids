@@ -1,9 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=17 format=3 uid="uid://cqe2ttqny5guu"]
 
 [ext_resource type="Script" uid="uid://tre0ie78v071" path="res://Scripts/universal.gd" id="1_dcfvu"]
 [ext_resource type="Texture2D" uid="uid://co351xg8mpp7i" path="res://icon.svg" id="1_rixb3"]
 [ext_resource type="Script" uid="uid://cxa4tig81l10j" path="res://Scripts/players.gd" id="2_32nq4"]
+[ext_resource type="Script" uid="uid://ba4m7vqdgvbns" path="res://Scripts/cameraEffects.gd" id="5_dcfvu"]
 [ext_resource type="StyleBox" uid="uid://d111n51vqq7fa" path="res://Styles/P1HealthBar.tres" id="5_g7o71"]
+[ext_resource type="Texture2D" uid="uid://bfh8ct00udy8r" path="res://Sprites/EmptyAlfa/HUD/Fight!/Round1.png" id="5_hy1cj"]
+[ext_resource type="Texture2D" uid="uid://ct3b4i6qq8118" path="res://Sprites/EmptyAlfa/HUD/Fight!/Round2.png" id="6_mqcjl"]
+[ext_resource type="Texture2D" uid="uid://c7ddkg2vyqc25" path="res://Sprites/EmptyAlfa/HUD/Fight!/Round3.png" id="7_ehspr"]
+[ext_resource type="Texture2D" uid="uid://c7w68pa0nm2rd" path="res://Sprites/EmptyAlfa/HUD/Fight!/Fight.png" id="8_caoic"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_464m7"]
 
@@ -12,6 +17,156 @@ bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybx47"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i4wdr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_hy1cj")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_mqcjl")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ehspr")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_ysomi"]
+resource_name = "RoundX"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/RoundScreen:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.23333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/FightScreen:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.23333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node2D/RoundScreen:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node2D/FightScreen:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.23333, 1.76667, 1.96667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Universal")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.23333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"startMatch"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_40vyh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/RoundScreen:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/FightScreen:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node2D/RoundScreen:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node2D/FightScreen:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p2skt"]
+_data = {
+&"RESET": SubResource("Animation_40vyh"),
+&"RoundX": SubResource("Animation_ysomi")
+}
 
 [node name="MainTestStage" type="Node"]
 
@@ -135,9 +290,9 @@ script = ExtResource("2_32nq4")
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="P1HittedBar" type="ProgressBar" parent="HUD"]
-offset_left = 50.0
+offset_left = 20.0
 offset_top = 20.0
-offset_right = 868.0
+offset_right = 838.0
 offset_bottom = 82.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_g7o71")
 value = 31.0
@@ -161,9 +316,9 @@ wait_time = 1.5
 one_shot = true
 
 [node name="P2HittedBar" type="ProgressBar" parent="HUD"]
-offset_left = 50.0
+offset_left = 80.0
 offset_top = 20.0
-offset_right = 868.0
+offset_right = 898.0
 offset_bottom = 82.0
 scale = Vector2(-1, 1)
 pivot_offset = Vector2(910, 361)
@@ -188,9 +343,28 @@ metadata/_edit_use_anchors_ = true
 wait_time = 1.5
 one_shot = true
 
+[node name="Node2D" type="Node2D" parent="HUD"]
+position = Vector2(960, 540)
+
+[node name="RoundScreen" type="AnimatedSprite2D" parent="HUD/Node2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_i4wdr")
+animation = &"1"
+
+[node name="FightScreen" type="Sprite2D" parent="HUD/Node2D"]
+visible = false
+texture = ExtResource("8_caoic")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Node2D"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_p2skt")
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 381)
 zoom = Vector2(0.8, 0.8)
+script = ExtResource("5_dcfvu")
 
 [connection signal="timeout" from="HUD/P1HittedBar/P1HittedDelay" to="Players" method="_on_p_1_hitted_delay_timeout"]
 [connection signal="timeout" from="HUD/P2HittedBar/P2HittedDelay" to="Players" method="_on_p_2_hitted_delay_timeout"]
