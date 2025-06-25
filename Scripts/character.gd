@@ -49,6 +49,7 @@ var quequeDoubleJumpFrames : int; #Cuantos frames lleva el doble salto en Que
 var hitstunFrames : float; #Golpes
 var dashHoldFrames : int; #Cuantos frames lleva en el hold final del Dash
 var canMove : bool;
+var cantMoveQueue : bool;
 
 #States
 enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
@@ -73,7 +74,7 @@ func _ready() -> void:
 	direction = 0;
 	
 	#Jugador actual
-	print(PlayerID);
+	#print(PlayerID);
 	if PlayerID == 1:
 		myChar = player1;
 		otherChar = player2;
@@ -108,11 +109,20 @@ func applyMovement(delta):
 		frameLabel.text = str(int(anim.current_animation_position * ANIMFPS))
 	#frameLabel.text = str(velocity.y)
 	stateLabel.text = str(States.keys()[state]);
+	if cantMoveQueue:
+		canMove = false;
+		cantMoveQueue = false;
+		direction = 0;
+		if is_on_floor():
+			state = States.cantMove
+		else:
+			state = States.cantMoveFell
 
 func stateCantMove():
 	#Velocidad
 	velocity.x = 0;
 	velocity.y = 0;
+	#print(str(PlayerID) + " - CantMove - " + str(velocity.x))
 	#Animacion
 	anim.play("Idle");
 	#Other States
@@ -121,17 +131,16 @@ func stateCantMove():
 	if canMove:
 		state = States.idle;
 
-func stateCantMoveFell():
+func stateCantMoveFell(delta : float):
 	#Velocidad
-	velocity.y += (GRAVITY + ADDITIONALGRAVITY);
-	#Animacion
-	anim.play("Walk");
+	#print(str(PlayerID) + " - CantMoveFell - " + str(velocity.x))
+	if not is_on_floor():
+		velocity.y += (GRAVITY + ADDITIONALGRAVITY ) * delta;
+	#Animación
+	anim.play("Idle");
 	#Other States
-	if not is_on_floor(): #Fall al caer
+	if is_on_floor():
 		state = States.cantMove;
-	if canMove:
-		state = States.fall;
-
 
 func stateHitstun(delta):
 	#Debug
@@ -328,6 +337,7 @@ func JumpLogic(isDouble: bool) -> void:
 		move = Moveset.nulo;
 		state = States.doublejump;
 
+
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	#if state != States.hitstun:
 		var hitMove = otherChar.move;
@@ -360,6 +370,13 @@ func FlippedOriginalStateDetection():
 func DashLogic():
 	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Dash"):
 		state = States.dashStart;
+		
+func flippedRevision():
+	if PlayerID == 1:
+		isFlipped = false;
+	else:
+		isFlipped = true;
+	visual.scale.x = 1.0 - 2.0 * int(isFlipped)
 
 func killMyself(): #alch no recuerdo si esto se usa o no, pero aca lo dejo
 	call_deferred("free")
@@ -376,5 +393,4 @@ func canFinallyMove():
 	canMove = true;
 	
 func cantMove():
-	canMove = false;
-	state = States.cantMove
+	cantMoveQueue = true;

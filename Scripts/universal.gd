@@ -5,6 +5,9 @@ extends Node
 @onready var players: Node2D = $"../Players"
 @onready var roundScreen: AnimatedSprite2D = $"../HUD/Node2D/RoundScreen"
 @onready var fightAnimation: AnimationPlayer = $"../HUD/Node2D/AnimationPlayer"
+@onready var roundHUD: Label = $"../HUD/Round"
+@onready var p1RoundHUD: Label = $"../HUD/P1Rounds"
+@onready var p2RoundHUD: Label = $"../HUD/P2Rounds"
 @onready var MainTestFight;
 
 func _ready() -> void:
@@ -18,6 +21,7 @@ func _input(event):
 
 func startFight(char1 : String, char2 : String):
 	SetCharacters(char1, char2);
+	UpdateRoundHUD();
 	roundScreen.play(str(MainTestFight.roundNumber));
 	#SET PLAYERS HEALTH
 	#await get_node("../Players").ready;
@@ -33,15 +37,21 @@ func startMatch(): #Llamada por la animación de FIGHT!!
 			hijo.canFinallyMove();
 
 func nextRound():
-	await get_tree().create_timer(1.5).timeout;
+	await get_tree().create_timer(3).timeout;
 	if MainTestFight.victoriesP1 == 2 or MainTestFight.victoriesP2 == 2:
 		MainTestFight.victory();
 	else:
+		UpdateRoundHUD();
 		fillPlayersHealth();
 		positionPlayers();
 		roundScreen.play(str(MainTestFight.roundNumber));
+		await get_tree().create_timer(1.0).timeout;
 		fightAnimation.play("RoundX");
 
+func UpdateRoundHUD():
+	roundHUD.text = str(MainTestFight.roundNumber);
+	p1RoundHUD.text = str(MainTestFight.victoriesP1);
+	p2RoundHUD.text = str(MainTestFight.victoriesP2);
 
 func SetCharacters(char1 : String, char2 : String):
 	var nodoPadre = get_node("../Players")
@@ -56,7 +66,7 @@ func SetCharacters(char1 : String, char2 : String):
 		instanciaP1.PlayerID = 1;
 		nodoPadre.add_child(instanciaP1)
 		player1 = $"../Players/Player1"
-		print("Player 1 ID: " + str(player1.PlayerID));
+		#print("Player 1 ID: " + str(player1.PlayerID));
 	else:
 		print("Error: No se encontró el nodo ../Players para P1")
 
@@ -68,7 +78,7 @@ func SetCharacters(char1 : String, char2 : String):
 		instanciaP2.PlayerID = 2;
 		nodoPadre.add_child(instanciaP2)
 		player2 = $"../Players/Player2"
-		print("Player 2 ID: " + str(player2.PlayerID));
+		#print("Player 2 ID: " + str(player2.PlayerID));
 	else:
 		print("Error: No se encontró el nodo ../Players para P2")
 
@@ -79,4 +89,7 @@ func fillPlayersHealth():
 
 func positionPlayers():
 	player1.position = Vector2(-960, -700)
-	#player2.position = Vector2(960, -700)
+	player2.position = Vector2(960, -700)
+	player1.flippedRevision();
+	player2.flippedRevision();
+	

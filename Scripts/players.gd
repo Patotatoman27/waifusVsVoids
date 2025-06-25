@@ -47,19 +47,16 @@ func decreaseHealth(player : int, amount : int):
 			P1healthBarStyle.bg_color.r = 0.5 + (healthP1 / 200.0)
 			if P1healthBar.value <= 0:
 				MainTestFight.winFight(1); #Añade puntos
-				player1.cantMove();
-				player2.cantMove();
-				universal.nextRound();
-			P1hittedDelay.stop();
-			P1hittedDelay.start();
+				stopPlayers();
+			else:
+				P1hittedDelay.stop();
+				P1hittedDelay.start();
 		2:
 			P2healthBar.value -= amount;
 			P2healthBarStyle.bg_color.r = 0.5 + (healthP2 / 200.0)
 			if P2healthBar.value <= 0:
 				MainTestFight.winFight(2);
-				player1.cantMove();
-				player2.cantMove();
-				universal.nextRound();
+				stopPlayers();
 			else:
 				P2hittedDelay.stop();
 				P2hittedDelay.start();
@@ -82,3 +79,10 @@ func correctHittedBar(player : int, amount : int):
 				P2hittedBar.value -= amount;
 				if P2healthBar.value <= P2hittedBar.value:
 					correctHittedBar(2, amount);
+
+func stopPlayers():
+	var player1: CharacterBody2D = $Player1
+	var player2: CharacterBody2D = $Player2
+	player1.cantMove();
+	player2.cantMove();
+	universal.nextRound();

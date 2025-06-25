@@ -10,7 +10,7 @@ func _physics_process(delta: float) -> void:
 		States.cantMove:
 			stateCantMove();
 		States.cantMoveFell:
-			stateCantMoveFell();
+			stateCantMoveFell(delta);
 		States.hitstun:
 			stateHitstun(delta);
 		States.idle:

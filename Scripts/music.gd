@@ -7,6 +7,8 @@ func play(music: String):
 	match music:
 		"MainTheme":
 			audio.stream = TEST_MAIN_THEME
+		"null":
+			pass;
 		_:
 			audio.stream = TEST_MAIN_THEME
 	audio.play();
