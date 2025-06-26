@@ -52,14 +52,15 @@ var canMove : bool;
 var cantMoveQueue : bool;
 
 #States
-enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold};
+enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold, lightPunch};
 var state : States;
 
 #Moveset
-enum Moveset {nulo, testWalkKick, testJumpKick}
-var attack_info = {
+enum Moveset {nulo, testWalkKick, testJumpKick, NeumannLightPunch}
+var attack_info = { #Damage, Hitstun, Hitstop, KnockbackX, KnockbackY
 	Moveset.testWalkKick: AttackData.new(5, 4, 0.15, 530, 0),
-	Moveset.testJumpKick: AttackData.new(30, 9, 0.5, 900, 0)
+	Moveset.testJumpKick: AttackData.new(30, 9, 0.5, 900, 0),
+	Moveset.NeumannLightPunch: AttackData.new(12, 5, 0.15, 800, -2200)
 }
 var move : Moveset;
 
@@ -173,6 +174,8 @@ func stateIdle():
 	DirectionDetection(); #Caminar
 	if direction != 0:
 		state = States.walk;
+	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Light"):
+		state = States.lightPunch;
 	FlippedOriginalStateDetection() #Salto
 	JumpLogic(false);
 	DashLogic(); #Dasj
@@ -194,6 +197,8 @@ func stateWalk(delta):
 	if direction == 0:
 		move = Moveset.nulo;
 		state = States.idle;
+	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Light"):
+		state = States.lightPunch;
 	FlippedOriginalStateDetection(); #Salto
 	JumpLogic(false);
 	DashLogic(); #Dash
@@ -291,6 +296,16 @@ func stateRealFall(delta):
 			state = States.idle;
 	JumpLogic(false);
 
+func stateLightPunch():
+	#Velocidad
+	velocity.x = 0;
+	direction = 0;
+	#Animacion
+	anim.play("lightPunch");
+	#OtherStates Automatico
+
+func returnToIdle():
+	state = States.idle
 
 ## FUNC LOGIC
 func JumpLogic(isDouble: bool) -> void:
@@ -337,7 +352,7 @@ func JumpLogic(isDouble: bool) -> void:
 		move = Moveset.nulo;
 		state = States.doublejump;
 
-
+#RECIBIR DAÑO POR GOLPES
 func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	#if state != States.hitstun:
 		var hitMove = otherChar.move;
@@ -351,6 +366,9 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 			else:
 				VictimDirection = 1;
 			myChar.velocity.x += VictimDirection * -data.knockbackH
+			myChar.velocity.y += data.knockbackV
+			if myChar.velocity.y >= data.knockbackV:
+				myChar.velocity.y = data.knockbackV;
 			hitstunFrames = data.hitstun
 			state = States.hitstun
 			Hitstop.hitStop(data.hitstop)

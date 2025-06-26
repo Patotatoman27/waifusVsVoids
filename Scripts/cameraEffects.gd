@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 			camera2D.position.x = 1054;
 		elif camera2D.position.x < -1054:
 			camera2D.position.x = -1054;
-		print(camera2D.position.x)
+		#print(camera2D.position.x)
 		camera2D.position.y = 381 - abs(player1.position.y - player2.position.y)/3
 	else:
 		camera2D.position.x = 0

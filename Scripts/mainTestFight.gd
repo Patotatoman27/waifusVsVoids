@@ -9,7 +9,7 @@ var MTS; #Aqui va el MainTestStage
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	setUpFight("Neumann", "Neumann", "MainTheme");
+	setUpFight(Global.p1char, Global.p2char, "MainTheme");
 
 func setUpFight(char1 : String, char2 : String, music : String):
 	roundNumber = 1;

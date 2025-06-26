@@ -176,60 +176,19 @@ _data = {
 [node name="Universal" type="Node" parent="."]
 script = ExtResource("1_dcfvu")
 
-[node name="BG" type="Node2D" parent="."]
-position = Vector2(0, 317)
-scale = Vector2(1.5, 1.5)
-
-[node name="SketchOldContentionZone" type="Node2D" parent="BG"]
-
-[node name="Level3" type="Parallax2D" parent="BG/SketchOldContentionZone"]
-scroll_scale = Vector2(0.2, 0.2)
-
-[node name="BG6" type="Sprite2D" parent="BG/SketchOldContentionZone/Level3"]
-position = Vector2(0, 250)
-scale = Vector2(2, 2)
-texture = ExtResource("2_40vyh")
-
-[node name="Level2" type="Parallax2D" parent="BG/SketchOldContentionZone"]
-scroll_scale = Vector2(0.5, 0.5)
-
-[node name="BG2" type="Sprite2D" parent="BG/SketchOldContentionZone/Level2"]
-position = Vector2(0, 160)
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("3_p2skt")
-
-[node name="BG3" type="Sprite2D" parent="BG/SketchOldContentionZone/Level2"]
-position = Vector2(0, 160)
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("4_rixb3")
-
-[node name="Level1" type="Parallax2D" parent="BG/SketchOldContentionZone"]
-scroll_scale = Vector2(0.7, 0.7)
-
-[node name="BG2" type="Sprite2D" parent="BG/SketchOldContentionZone/Level1"]
-position = Vector2(0, 101)
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("5_dfr5b")
-
-[node name="Level0" type="Parallax2D" parent="BG/SketchOldContentionZone"]
-
-[node name="BG10" type="Sprite2D" parent="BG/SketchOldContentionZone/Level0"]
-texture = ExtResource("6_yd757")
-
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(0, 880)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Floor"]
-visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -4393.0
+offset_top = 57.0
 offset_right = 4393.0
-offset_bottom = 1080.0
+offset_bottom = 1137.0
 grow_horizontal = 2
 color = Color(0.67069, 0.67069, 0.67069, 1)
 
@@ -249,6 +208,55 @@ shape = SubResource("WorldBoundaryShape2D_464m7")
 position = Vector2(2249, 0)
 rotation = -1.5708
 shape = SubResource("WorldBoundaryShape2D_464m7")
+
+[node name="BG" type="Node2D" parent="."]
+position = Vector2(0, 317)
+scale = Vector2(1.5, 1.5)
+
+[node name="SketchOldContentionZone" type="Node2D" parent="BG"]
+
+[node name="Level3" type="Parallax2D" parent="BG/SketchOldContentionZone"]
+scroll_scale = Vector2(0.3, 1)
+scroll_offset = Vector2(200, 0)
+
+[node name="BG7" type="Sprite2D" parent="BG/SketchOldContentionZone/Level3"]
+position = Vector2(-180, -1150)
+rotation = -3.14159
+scale = Vector2(2, 2)
+texture = ExtResource("2_40vyh")
+
+[node name="BG6" type="Sprite2D" parent="BG/SketchOldContentionZone/Level3"]
+position = Vector2(250, 370)
+scale = Vector2(2, 2)
+texture = ExtResource("2_40vyh")
+
+[node name="Level2" type="Parallax2D" parent="BG/SketchOldContentionZone"]
+scroll_scale = Vector2(0.4, 1)
+scroll_offset = Vector2(230, -10)
+
+[node name="BG2" type="Sprite2D" parent="BG/SketchOldContentionZone/Level2"]
+position = Vector2(150, 160)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_p2skt")
+
+[node name="BG3" type="Sprite2D" parent="BG/SketchOldContentionZone/Level2"]
+position = Vector2(-220, 160)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_rixb3")
+
+[node name="Level1" type="Parallax2D" parent="BG/SketchOldContentionZone"]
+scroll_scale = Vector2(0.6, 0.6)
+scroll_offset = Vector2(0, 47)
+
+[node name="BG2" type="Sprite2D" parent="BG/SketchOldContentionZone/Level1"]
+position = Vector2(0, 155.667)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_dfr5b")
+
+[node name="Level0" type="Parallax2D" parent="BG/SketchOldContentionZone"]
+
+[node name="BG10" type="Sprite2D" parent="BG/SketchOldContentionZone/Level0"]
+texture = ExtResource("6_yd757")
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("2_32nq4")
