@@ -14,8 +14,6 @@ func _ready() -> void:
 	MainTestFight = get_parent().get_parent();
 
 func _input(event):
-	if event.is_action_pressed("A_Restart"):
-		MainTestFight.reloadUniversal();
 	if event.is_action_pressed("A_StartMatch"):
 		startMatch();
 

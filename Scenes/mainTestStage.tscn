@@ -1,14 +1,18 @@
-[gd_scene load_steps=18 format=3 uid="uid://cqe2ttqny5guu"]
+[gd_scene load_steps=22 format=3 uid="uid://cqe2ttqny5guu"]
 
 [ext_resource type="Script" uid="uid://tre0ie78v071" path="res://Scripts/universal.gd" id="1_dcfvu"]
-[ext_resource type="Texture2D" uid="uid://co351xg8mpp7i" path="res://icon.svg" id="1_rixb3"]
 [ext_resource type="Script" uid="uid://cxa4tig81l10j" path="res://Scripts/players.gd" id="2_32nq4"]
+[ext_resource type="Texture2D" uid="uid://caine24oy6e" path="res://Sprites/EmptyAlfa/Stages/SketchOldContentionZone/Sky.png" id="2_40vyh"]
+[ext_resource type="Texture2D" uid="uid://b437udmvio8hq" path="res://Sprites/EmptyAlfa/Stages/SketchOldContentionZone/Mountain 1.png" id="3_p2skt"]
 [ext_resource type="StyleBox" uid="uid://bgd2ayfx0n3nu" path="res://Styles/PAHittedBar.tres" id="4_mqcjl"]
+[ext_resource type="Texture2D" uid="uid://52twbbsnrnca" path="res://Sprites/EmptyAlfa/Stages/SketchOldContentionZone/Mountain2.png" id="4_rixb3"]
 [ext_resource type="Script" uid="uid://ba4m7vqdgvbns" path="res://Scripts/cameraEffects.gd" id="5_dcfvu"]
+[ext_resource type="Texture2D" uid="uid://cs1vsnctsbdpa" path="res://Sprites/EmptyAlfa/Stages/SketchOldContentionZone/Cave.png" id="5_dfr5b"]
 [ext_resource type="StyleBox" uid="uid://d111n51vqq7fa" path="res://Styles/P1HealthBar.tres" id="5_g7o71"]
 [ext_resource type="Texture2D" uid="uid://bfh8ct00udy8r" path="res://Sprites/EmptyAlfa/HUD/Fight!/Round1.png" id="5_hy1cj"]
 [ext_resource type="StyleBox" uid="uid://bpuhh4j37gd7a" path="res://Styles/P2HealthBar.tres" id="6_ehspr"]
 [ext_resource type="Texture2D" uid="uid://ct3b4i6qq8118" path="res://Sprites/EmptyAlfa/HUD/Fight!/Round2.png" id="6_mqcjl"]
+[ext_resource type="Texture2D" uid="uid://ck5445ctgledc" path="res://Sprites/EmptyAlfa/Stages/SketchOldContentionZone/Laboratory.png" id="6_yd757"]
 [ext_resource type="Texture2D" uid="uid://c7ddkg2vyqc25" path="res://Sprites/EmptyAlfa/HUD/Fight!/Round3.png" id="7_ehspr"]
 [ext_resource type="Texture2D" uid="uid://c7w68pa0nm2rd" path="res://Sprites/EmptyAlfa/HUD/Fight!/Fight.png" id="8_caoic"]
 
@@ -173,101 +177,53 @@ _data = {
 script = ExtResource("1_dcfvu")
 
 [node name="BG" type="Node2D" parent="."]
-visible = false
+position = Vector2(0, 317)
+scale = Vector2(1.5, 1.5)
 
-[node name="Level3" type="Parallax2D" parent="BG"]
-scroll_scale = Vector2(0.03, 0.03)
+[node name="SketchOldContentionZone" type="Node2D" parent="BG"]
 
-[node name="BG6" type="Sprite2D" parent="BG/Level3"]
-position = Vector2(-1005, 1024)
-rotation = -0.282743
-scale = Vector2(25.0318, 16.864)
-texture = ExtResource("1_rixb3")
+[node name="Level3" type="Parallax2D" parent="BG/SketchOldContentionZone"]
+scroll_scale = Vector2(0.2, 0.2)
 
-[node name="Level2" type="Parallax2D" parent="BG"]
-scroll_scale = Vector2(0.1, 0.1)
+[node name="BG6" type="Sprite2D" parent="BG/SketchOldContentionZone/Level3"]
+position = Vector2(0, 250)
+scale = Vector2(2, 2)
+texture = ExtResource("2_40vyh")
 
-[node name="BG" type="Sprite2D" parent="BG/Level2"]
-position = Vector2(2726, 787)
-rotation = 0.314159
-scale = Vector2(21.4708, 9.53236)
-texture = ExtResource("1_rixb3")
+[node name="Level2" type="Parallax2D" parent="BG/SketchOldContentionZone"]
+scroll_scale = Vector2(0.5, 0.5)
 
-[node name="BG4" type="Sprite2D" parent="BG/Level2"]
-position = Vector2(1811, 2369)
-rotation = 0.0523599
-scale = Vector2(42.4541, 21.6256)
-texture = ExtResource("1_rixb3")
+[node name="BG2" type="Sprite2D" parent="BG/SketchOldContentionZone/Level2"]
+position = Vector2(0, 160)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_p2skt")
 
-[node name="BG2" type="Sprite2D" parent="BG/Level2"]
-position = Vector2(-171, 974)
-rotation = -0.403171
-scale = Vector2(21.4708, 9.53235)
-texture = ExtResource("1_rixb3")
+[node name="BG3" type="Sprite2D" parent="BG/SketchOldContentionZone/Level2"]
+position = Vector2(0, 160)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_rixb3")
 
-[node name="BG3" type="Sprite2D" parent="BG/Level2"]
-position = Vector2(4017, 879)
-rotation = -0.403171
-scale = Vector2(21.4708, 9.53235)
-texture = ExtResource("1_rixb3")
-
-[node name="Level1" type="Parallax2D" parent="BG"]
+[node name="Level1" type="Parallax2D" parent="BG/SketchOldContentionZone"]
 scroll_scale = Vector2(0.7, 0.7)
 
-[node name="BG2" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(2129, 845)
-rotation = -2.79602
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
+[node name="BG2" type="Sprite2D" parent="BG/SketchOldContentionZone/Level1"]
+position = Vector2(0, 101)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_dfr5b")
 
-[node name="BG3" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(211, 782)
-rotation = -0.282743
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
+[node name="Level0" type="Parallax2D" parent="BG/SketchOldContentionZone"]
 
-[node name="BG4" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(1222, 995)
-rotation = 0.195477
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
-
-[node name="BG5" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(-738.722, 1038.12)
-rotation = -2.79602
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
-
-[node name="BG7" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(-1646.72, 1134.12)
-rotation = 0.195477
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
-
-[node name="BG8" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(5358.28, 997.119)
-rotation = -4.35111
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
-
-[node name="BG9" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(3440.28, 934.119)
-rotation = -4.35111
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
-
-[node name="BG10" type="Sprite2D" parent="BG/Level1"]
-position = Vector2(4451.28, 1147.12)
-rotation = -3.39292
-scale = Vector2(7.72417, 6.52797)
-texture = ExtResource("1_rixb3")
+[node name="BG10" type="Sprite2D" parent="BG/SketchOldContentionZone/Level0"]
+texture = ExtResource("6_yd757")
 
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(0, 880)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Floor"]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -281,6 +237,17 @@ color = Color(0.67069, 0.67069, 0.67069, 1)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D"]
+position = Vector2(0, 57)
+shape = SubResource("WorldBoundaryShape2D_464m7")
+
+[node name="WallL" type="CollisionShape2D" parent="Floor/StaticBody2D"]
+position = Vector2(-2251, 0)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_464m7")
+
+[node name="WallR" type="CollisionShape2D" parent="Floor/StaticBody2D"]
+position = Vector2(2249, 0)
+rotation = -1.5708
 shape = SubResource("WorldBoundaryShape2D_464m7")
 
 [node name="Players" type="Node2D" parent="."]
