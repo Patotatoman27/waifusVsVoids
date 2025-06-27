@@ -50,6 +50,7 @@ var hitstunFrames : float; #Golpes
 var dashHoldFrames : int; #Cuantos frames lleva en el hold final del Dash
 var canMove : bool;
 var cantMoveQueue : bool;
+var hittedBy : Moveset;
 
 #States
 enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold, lightPunch};
@@ -73,6 +74,7 @@ func _ready() -> void:
 	canJump = true;
 	canMove = false;
 	direction = 0;
+	hittedBy = Moveset.nulo;
 	
 	#Jugador actual
 	#print(PlayerID);
@@ -306,6 +308,7 @@ func stateLightPunch():
 
 func returnToIdle():
 	state = States.idle
+	otherChar.resetHittedBy();
 
 ## FUNC LOGIC
 func JumpLogic(isDouble: bool) -> void:
@@ -357,7 +360,8 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 	#if state != States.hitstun:
 		var hitMove = otherChar.move;
 		#print(Moveset.keys()[hitMove]) #Que Movimiento impactó
-		if hitMove != 0:
+		if hitMove != 0 and (not hitMove == hittedBy):
+			hittedBy = hitMove;
 			var data: AttackData = attack_info[hitMove]
 			players.decreaseHealth(PlayerID, data.damage)
 			var VictimDirection;
@@ -372,6 +376,9 @@ func _on_hurtboxes_area_entered(area: Area2D) -> void:
 			hitstunFrames = data.hitstun
 			state = States.hitstun
 			Hitstop.hitStop(data.hitstop)
+
+func resetHittedBy():
+	hittedBy = Moveset.nulo;
 
 func DirectionDetection(): #Define DIRECCION
 	direction = Input.get_action_strength("P" + str(PlayerID) + "_Right") - Input.get_action_strength("P" + str(PlayerID) + "_Left")

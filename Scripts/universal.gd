@@ -10,6 +10,9 @@ extends Node
 @onready var p2RoundHUD: Label = $"../HUD/P2Rounds"
 @onready var MainTestFight;
 
+const CHARACTERS_SPAWN_X = 660;
+const CHARACTERS_SPAWN_Y = -700;
+
 func _ready() -> void:
 	MainTestFight = get_parent().get_parent();
 
@@ -58,7 +61,7 @@ func SetCharacters(char1 : String, char2 : String):
 	
 	#PLAYER1
 	var instanciaP1 = escenaP1.instantiate()
-	instanciaP1.position = Vector2(-960, -700)
+	instanciaP1.position = Vector2(-CHARACTERS_SPAWN_X, CHARACTERS_SPAWN_Y)
 	if nodoPadre:
 		instanciaP1.name = "Player1";
 		instanciaP1.PlayerID = 1;
@@ -70,7 +73,7 @@ func SetCharacters(char1 : String, char2 : String):
 
 	#PLAYER2
 	var instanciaP2 = escenaP2.instantiate()
-	instanciaP2.position = Vector2(960, -700);
+	instanciaP2.position = Vector2(CHARACTERS_SPAWN_X, CHARACTERS_SPAWN_Y);
 	if nodoPadre:
 		instanciaP2.name = "Player2";
 		instanciaP2.PlayerID = 2;
@@ -86,8 +89,8 @@ func fillPlayersHealth():
 	players.fillHealthBar(2, player2.MAXHEALTH)
 
 func positionPlayers():
-	player1.position = Vector2(-960, -700)
-	player2.position = Vector2(960, -700)
+	player1.position = Vector2(-CHARACTERS_SPAWN_X, CHARACTERS_SPAWN_Y)
+	player2.position = Vector2(CHARACTERS_SPAWN_X, CHARACTERS_SPAWN_Y)
 	player1.flippedRevision();
 	player2.flippedRevision();
 	
