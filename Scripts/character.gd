@@ -53,7 +53,7 @@ var cantMoveQueue : bool;
 var hittedBy : Moveset;
 
 #States
-enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold, lightPunch};
+enum States {cantMove, cantMoveFell, idle, fall, jump, doublejump, realfall, walk, hitstun, dashStart, dash, dashHold, crouchEnter, crouchIdle, crouchExit, lightPunch};
 var state : States;
 
 #Moveset
@@ -61,7 +61,7 @@ enum Moveset {nulo, testWalkKick, testJumpKick, NeumannLightPunch}
 var attack_info = { #Damage, Hitstun, Hitstop, KnockbackX, KnockbackY
 	Moveset.testWalkKick: AttackData.new(5, 4, 0.15, 530, 0),
 	Moveset.testJumpKick: AttackData.new(30, 9, 0.5, 900, 0),
-	Moveset.NeumannLightPunch: AttackData.new(12, 5, 0.15, 800, -2200)
+	Moveset.NeumannLightPunch: AttackData.new(12, 5, 0.15, 1200, -2200)
 }
 var move : Moveset;
 
@@ -176,6 +176,8 @@ func stateIdle():
 	DirectionDetection(); #Caminar
 	if direction != 0:
 		state = States.walk;
+	if Input.is_action_pressed("P" + str(PlayerID) + "_Down"):
+		state = States.crouchEnter;
 	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Light"):
 		state = States.lightPunch;
 	FlippedOriginalStateDetection() #Salto
@@ -199,6 +201,8 @@ func stateWalk(delta):
 	if direction == 0:
 		move = Moveset.nulo;
 		state = States.idle;
+	if Input.is_action_pressed("P" + str(PlayerID) + "_Down"):
+		state = States.crouchEnter;
 	if Input.is_action_just_pressed("P" + str(PlayerID) + "_Light"):
 		state = States.lightPunch;
 	FlippedOriginalStateDetection(); #Salto
@@ -298,6 +302,28 @@ func stateRealFall(delta):
 			state = States.idle;
 	JumpLogic(false);
 
+func stateCrouchEnter():
+	#Velocidad
+	direction = 0;
+	#Animación
+	anim.play("Crouch");
+
+func stateCrouchIdle():
+	#Velocidad
+	velocity.x = 0;
+	direction = 0;
+	#Animación
+	anim.play("CrouchIdle");
+	#Other States:
+	if not Input.is_action_pressed("P" + str(PlayerID) + "_Down"):
+		state = States.crouchExit
+		
+func stateCrouchExit():
+	#Velocidad
+	direction = 0;
+	#Animación
+	anim.play("CrouchExit");
+
 func stateLightPunch():
 	#Velocidad
 	velocity.x = 0;
@@ -309,6 +335,12 @@ func stateLightPunch():
 func returnToIdle():
 	state = States.idle
 	otherChar.resetHittedBy();
+
+func enterCrouchIdle():
+	if Input.is_action_pressed("P" + str(PlayerID) + "_Down"):
+		state = States.crouchIdle;
+	else:
+		state = States.crouchExit;
 
 ## FUNC LOGIC
 func JumpLogic(isDouble: bool) -> void:

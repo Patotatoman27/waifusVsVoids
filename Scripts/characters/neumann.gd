@@ -32,6 +32,12 @@ func _physics_process(delta: float) -> void:
 			stateFall(delta);
 		States.realfall:
 			stateRealFall(delta);
+		States.crouchEnter:
+			stateCrouchEnter();
+		States.crouchIdle:
+			stateCrouchIdle();
+		States.crouchExit:
+			stateCrouchExit();
 		States.lightPunch:
 			move = Moveset.NeumannLightPunch
 			stateLightPunch();
